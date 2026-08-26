@@ -39,6 +39,7 @@ import { DirectionProvider } from './context/direction-provider'
 import { FontProvider } from './context/font-provider'
 import { ThemeProvider } from './context/theme-provider'
 import './i18n/config'
+import { initLangSync } from './i18n/lang-sync'
 // Generated Routes
 import { routeTree } from './routeTree.gen'
 
@@ -49,6 +50,7 @@ import './styles/index.css'
 // VChart theme is driven by our ThemeProvider (html.light/html.dark) via per-chart `theme` prop.
 initializeFrontendCache()
 installBuildMetadata()
+initLangSync()
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -20,6 +20,13 @@ For commercial licensing, please contact support@quantumnous.com
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 @import '@fontsource-variable/public-sans';
+/* Arabic fallback (RTL) for the body font. Only the 400/700 weights are
+ * bundled — they cover regular and bold Arabic glyphs and keep the
+ * payload small (~160KB woff2 total). The browser's per-character font
+ * fallback walks the family chain in `theme.css --font-sans`, so this
+ * only kicks in for code points Public Sans doesn't cover. */
+@import '@fontsource/noto-sans-arabic/400.css';
+@import '@fontsource/noto-sans-arabic/700.css';
 /* Editorial serif (Lora) backing the `serif` font axis and the Anthropic
  * preset's default typography. See `--font-serif` in theme.css for the
  * full Latin + CJK fallback stack and `theme-presets.css` for the cascade

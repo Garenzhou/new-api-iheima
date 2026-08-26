@@ -16,12 +16,17 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import dayjs from 'dayjs'
-import 'dayjs/locale/ar'
-import 'dayjs/locale/zh-cn'
-import 'dayjs/locale/zh-tw'
-import relativeTime from 'dayjs/plugin/relativeTime'
+import { render } from '@testing-library/react'
+import { describe, expect, test } from 'vitest'
 
-dayjs.extend(relativeTime)
+import { HeroTerminalDemo } from '../hero-terminal-demo'
 
-export default dayjs
+describe('HeroTerminalDemo', () => {
+  test('renders with forced LTR direction so code stays readable under RTL locales', () => {
+    const { container } = render(<HeroTerminalDemo />)
+    const root = container.firstElementChild as HTMLElement | null
+    expect(root).not.toBeNull()
+    expect(root?.getAttribute('dir')).toBe('ltr')
+    expect(root?.className).toContain('text-left')
+  })
+})
