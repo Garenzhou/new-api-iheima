@@ -36,6 +36,7 @@ describe('normalizeInterfaceLanguage', () => {
     ['ja', 'ja'],
     ['vi', 'vi'],
     ['ar', 'ar'],
+    ['ko', 'ko'],
     // Chinese variants normalized to project codes
     ['zh-CN', 'zhCN'],
     ['zh-Hans', 'zhCN'],
@@ -63,6 +64,8 @@ describe('convertDetectedLanguage', () => {
     // can match (e.g. ar-SA → ar, en-US → en).
     ['ar', 'ar'],
     ['ar-SA', 'ar-SA'],
+    ['ko', 'ko'],
+    ['ko-KR', 'ko-KR'],
     ['en-US', 'en-US'],
     ['fr-FR', 'fr-FR'],
     ['ja', 'ja'],
@@ -86,8 +89,7 @@ describe('toIntlLocale', () => {
     ['en', 'en'],
     ['fr', 'fr'],
     ['ar', 'ar'],
-    ['ja', 'ja'],
-    // Invalid inputs return undefined (Intl fallback to runtime default)
+    ['ko', 'ko'],
     ['', undefined],
     [null, undefined],
     [undefined, undefined],
@@ -112,6 +114,7 @@ describe('getDirection', () => {
     ['fr', 'ltr'],
     ['ru', 'ltr'],
     ['ja', 'ltr'],
+    ['ko', 'ltr'],
     ['vi', 'ltr'],
     // Edge cases
     ['', 'ltr'],

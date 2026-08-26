@@ -27,6 +27,8 @@ For commercial licensing, please contact support@quantumnous.com
  * only kicks in for code points Public Sans doesn't cover. */
 @import '@fontsource/noto-sans-arabic/400.css';
 @import '@fontsource/noto-sans-arabic/700.css';
+@import '@fontsource/noto-sans-kr/400.css';
+@import '@fontsource/noto-sans-kr/700.css';
 /* Editorial serif (Lora) backing the `serif` font axis and the Anthropic
  * preset's default typography. See `--font-serif` in theme.css for the
  * full Latin + CJK fallback stack and `theme-presets.css` for the cascade

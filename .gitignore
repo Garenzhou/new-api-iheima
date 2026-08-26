@@ -44,3 +44,9 @@ go.work.sum
 
 # i18n translation working files
 web/scripts/.translate-ar-cache.json
+
+# i18n translation working files
+web/scripts/.translate-*-cache.json
+
+__pycache__/
+*.pyc

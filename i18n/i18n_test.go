@@ -27,6 +27,9 @@ func TestNormalizeLang(t *testing.T) {
 		{"ar-SA", LangAr},
 		{"ar-EG", LangAr},
 		{"AR-ae", LangAr},
+		{"ko", LangKo},
+		{"ko-KR", LangKo},
+		{"KO-kr", LangKo},
 		{"fr", DefaultLang},
 		{"xx-YY", DefaultLang},
 	}
@@ -43,7 +46,7 @@ func TestIsSupported(t *testing.T) {
 	// DefaultLang = LangEn, which is itself supported), so IsSupported is
 	// effectively always true for non-empty input. The contract is: the
 	// supported set is closed under normalizeLang.
-	for _, lang := range []string{LangZhCN, LangZhTW, LangEn, LangAr, "en", "zh", "zh-TW", "ar", "ar-SA", "fr", "ja", "xx-YY", ""} {
+	for _, lang := range []string{LangZhCN, LangZhTW, LangEn, LangAr, LangKo, "en", "zh", "zh-TW", "ar", "ar-SA", "ko", "ko-KR", "fr", "ja", "xx-YY", ""} {
 		if !IsSupported(lang) {
 			t.Errorf("IsSupported(%q) = false, want true (normalizeLang maps every input to a supported language)", lang)
 		}
@@ -52,7 +55,7 @@ func TestIsSupported(t *testing.T) {
 	// to a 5th language. We assert the supported-set contract instead by
 	// confirming the function's return is consistent with SupportedLanguages.
 	supported := SupportedLanguages()
-	for _, lang := range []string{LangZhCN, LangZhTW, LangEn, LangAr} {
+	for _, lang := range []string{LangZhCN, LangZhTW, LangEn, LangAr, LangKo} {
 		found := false
 		for _, s := range supported {
 			if lang == s {

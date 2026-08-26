@@ -20,6 +20,7 @@ const (
 	LangZhTW    = "zh-TW"
 	LangEn      = "en"
 	LangAr      = "ar"
+	LangKo      = "ko"
 	DefaultLang = LangEn // Fallback to English if language not supported
 )
 
@@ -41,7 +42,7 @@ func Init() error {
 		bundle.RegisterUnmarshalFunc("yaml", yaml.Unmarshal)
 
 		// Load embedded translation files
-		files := []string{"locales/zh-CN.yaml", "locales/zh-TW.yaml", "locales/en.yaml", "locales/ar.yaml"}
+		files := []string{"locales/zh-CN.yaml", "locales/zh-TW.yaml", "locales/en.yaml", "locales/ar.yaml", "locales/ko.yaml"}
 		for _, file := range files {
 			_, err := bundle.LoadMessageFileFS(localeFS, file)
 			if err != nil {
@@ -55,6 +56,7 @@ func Init() error {
 		localizers[LangZhTW] = i18n.NewLocalizer(bundle, LangZhTW)
 		localizers[LangEn] = i18n.NewLocalizer(bundle, LangEn)
 		localizers[LangAr] = i18n.NewLocalizer(bundle, LangAr)
+	localizers[LangKo] = i18n.NewLocalizer(bundle, LangKo)
 
 		// Set the TranslateMessage function in common package
 		common.TranslateMessage = T
@@ -213,6 +215,8 @@ func normalizeLang(lang string) string {
 		return LangEn
 	case strings.HasPrefix(lang, "ar"):
 		return LangAr
+	case strings.HasPrefix(lang, "ko"):
+		return LangKo
 	default:
 		return DefaultLang
 	}
@@ -220,7 +224,7 @@ func normalizeLang(lang string) string {
 
 // SupportedLanguages returns a list of supported language codes
 func SupportedLanguages() []string {
-	return []string{LangZhCN, LangZhTW, LangEn, LangAr}
+	return []string{LangZhCN, LangZhTW, LangEn, LangAr, LangKo}
 }
 
 // IsSupported checks if a language code is supported

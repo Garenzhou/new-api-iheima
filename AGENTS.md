@@ -36,18 +36,18 @@ i18n/          — Backend internationalization (go-i18n, en/zh)
 oauth/         — OAuth provider implementations
 pkg/           — Internal packages (cachex, ionet)
 web/           — Frontend (React 19, Rsbuild, Base UI, Tailwind)
-  src/i18n/    — Frontend internationalization (i18next, en/zh/zh-TW/fr/ru/ja/vi/ar)
+  src/i18n/    — Frontend internationalization (i18next, en/zh/zh-TW/fr/ru/ja/vi/ar/ko)
 ```
 
 ## Internationalization (i18n)
 
 ### Backend (`i18n/`)
 - Library: `nicksnyder/go-i18n/v2`
-- Languages: en, zh-CN, zh-TW, ar
+- Languages: en, zh-CN, zh-TW, ar, ko
 
 ### Frontend (`web/src/i18n/`)
 - Library: `i18next` + `react-i18next` + `i18next-browser-languagedetector`
-- Languages: en (base), zh (fallback), zh-TW, fr, ru, ja, vi, ar
+- Languages: en (base), zh (fallback), zh-TW, fr, ru, ja, vi, ar, ko
 - RTL: ar/fa/he map to `<html dir="rtl">` automatically via `getDirection()` and the `DirectionProvider` listener; manual `dir` cookie override persists across reloads and same-language navigation.
 - Translation files: `web/src/i18n/locales/{lang}.json` — flat JSON, keys are English source strings
 - Usage: `useTranslation()` hook, call `t('English key')` in components

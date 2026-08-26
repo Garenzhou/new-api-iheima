@@ -25,6 +25,7 @@ export const INTERFACE_LANGUAGE_OPTIONS = [
   { code: 'vi', label: 'Tiếng Việt' },
   { code: 'zhTW', label: '繁體中文' },
   { code: 'ar', label: 'العربية' },
+  { code: 'ko', label: '한국어' }
 ] as const
 
 export type InterfaceLanguageCode =
