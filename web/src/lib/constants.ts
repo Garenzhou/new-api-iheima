@@ -21,7 +21,7 @@ For commercial licensing, please contact support@quantumnous.com
  */
 
 // System Configuration Defaults
-export const DEFAULT_SYSTEM_NAME = 'A-Token Relay'
+export const DEFAULT_SYSTEM_NAME = 'AToken Relay'
 export const DEFAULT_LOGO = '/logo.png'
 
 // LocalStorage Keys

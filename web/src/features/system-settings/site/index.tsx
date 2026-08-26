@@ -26,7 +26,7 @@ import {
 
 const defaultSiteSettings: SiteSettings = {
   Notice: '',
-  SystemName: 'A-Token Relay',
+  SystemName: 'AToken Relay',
   Logo: '',
   Footer: '',
   About: '',

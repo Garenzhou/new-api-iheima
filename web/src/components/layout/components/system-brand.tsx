@@ -51,7 +51,7 @@ export function SystemBrand(props: SystemBrandProps) {
   const { logo } = useSystemConfig()
 
   const variant = props.variant ?? 'sidebar'
-  const name = status?.system_name || props.defaultName || 'A-Token Relay'
+  const name = status?.system_name || props.defaultName || 'AToken Relay'
   const version =
     status?.version || props.defaultVersion || t('Unknown version')
 
