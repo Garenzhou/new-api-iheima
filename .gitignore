@@ -50,3 +50,6 @@ web/scripts/.translate-*-cache.json
 
 __pycache__/
 *.pyc
+
+# i18n sync temp reports
+web/src/i18n/locales/_reports/*.untranslated.json
