@@ -21,9 +21,12 @@ import { describe, expect, test } from 'vitest'
 import { PAYMENT_TYPES } from '../constants'
 import {
   dispatchSelectedPayment,
+  getDefaultPaymentType,
+  getMinTopupAmount,
   isStripePayment,
   isWaffoPayment,
   isWaffoPancakePayment,
+  isEpusdtPayment,
 } from './payment'
 
 describe('payment type classification', () => {
@@ -33,6 +36,12 @@ describe('payment type classification', () => {
     expect(isWaffoPancakePayment(PAYMENT_TYPES.WAFFO_PANCAKE)).toBe(true)
     expect(isWaffoPancakePayment(PAYMENT_TYPES.WAFFO)).toBe(false)
     expect(isStripePayment(PAYMENT_TYPES.STRIPE)).toBe(true)
+  })
+
+  test('keeps Epusdt on its dedicated flow', () => {
+    expect(isEpusdtPayment(PAYMENT_TYPES.EPUSDT)).toBe(true)
+    expect(isEpusdtPayment('alipay')).toBe(false)
+    expect(isEpusdtPayment(PAYMENT_TYPES.WAFFO)).toBe(false)
   })
 })
 
@@ -56,6 +65,10 @@ describe('payment dispatch', () => {
           calls.push('pancake')
           return false
         },
+        epusdt: async () => {
+          calls.push('epusdt')
+          return false
+        },
       }
     )
 
@@ -76,10 +89,67 @@ describe('payment dispatch', () => {
           return true
         },
         waffoPancake: async () => false,
+        epusdt: async () => false,
       }
     )
 
     expect(success).toBe(false)
     expect(called).toBe(false)
+  })
+
+  test('routes Epusdt confirmation to the dedicated processor', async () => {
+    const calls: string[] = []
+    const success = await dispatchSelectedPayment(
+      { name: 'USDT', type: PAYMENT_TYPES.EPUSDT },
+      50,
+      null,
+      {
+        regular: async () => {
+          calls.push('regular')
+          return false
+        },
+        waffo: async () => {
+          calls.push('waffo')
+          return false
+        },
+        waffoPancake: async () => {
+          calls.push('pancake')
+          return false
+        },
+        epusdt: async (amount) => {
+          calls.push(`epusdt:${amount}`)
+          return true
+        },
+      }
+    )
+
+    expect(success).toBe(true)
+    expect(calls).toEqual(['epusdt:50'])
+  })
+})
+
+describe('topup info resolution', () => {
+  test('uses the Epusdt minimum when only Epusdt topup is enabled', () => {
+    const topupInfo = {
+      enable_online_topup: false,
+      enable_epusdt_topup: true,
+      epusdt_min_topup: 5,
+      min_topup: 1,
+      stripe_min_topup: 1,
+    } as never
+
+    expect(getMinTopupAmount(topupInfo)).toBe(5)
+    expect(getDefaultPaymentType(topupInfo)).toBe(PAYMENT_TYPES.EPUSDT)
+  })
+
+  test('falls back to the default minimum when the Epusdt minimum is absent', () => {
+    const topupInfo = {
+      enable_online_topup: false,
+      enable_epusdt_topup: true,
+      min_topup: 1,
+      stripe_min_topup: 1,
+    } as never
+
+    expect(getMinTopupAmount(topupInfo)).toBe(1)
   })
 })

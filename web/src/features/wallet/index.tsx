@@ -41,6 +41,7 @@ import {
   useCreemPayment,
   useWaffoPayment,
   useWaffoPancakePayment,
+  useEpusdtPayment,
 } from './hooks'
 import {
   getDefaultPaymentType,
@@ -108,6 +109,8 @@ export function Wallet(props: WalletProps) {
   const { processing: waffoProcessing, processWaffoPayment } = useWaffoPayment()
   const { processing: pancakeProcessing, processWaffoPancakePayment } =
     useWaffoPancakePayment()
+  const { processing: epusdtProcessing, processEpusdtPayment } =
+    useEpusdtPayment()
 
   // Fetch and refresh user data
   const fetchUser = useCallback(async () => {
@@ -202,6 +205,7 @@ export function Wallet(props: WalletProps) {
         regular: processPayment,
         waffo: processWaffoPayment,
         waffoPancake: processWaffoPancakePayment,
+        epusdt: processEpusdtPayment,
       }
     )
 
@@ -328,6 +332,7 @@ export function Wallet(props: WalletProps) {
                   enableWaffoPancakeTopup={
                     topupInfo?.enable_waffo_pancake_topup
                   }
+                  enableEpusdtTopup={topupInfo?.enable_epusdt_topup}
                 />
               </div>
 
@@ -360,7 +365,9 @@ export function Wallet(props: WalletProps) {
         paymentAmount={paymentAmount}
         paymentMethod={selectedPaymentMethod}
         calculating={calculating}
-        processing={processing || waffoProcessing || pancakeProcessing}
+        processing={
+          processing || waffoProcessing || pancakeProcessing || epusdtProcessing
+        }
         discountRate={getDiscountRate()}
         usdExchangeRate={effectiveUsdExchangeRate}
       />

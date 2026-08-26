@@ -93,10 +93,22 @@ export function isWaffoPancakePayment(paymentType: string): boolean {
   return paymentType === PAYMENT_TYPES.WAFFO_PANCAKE
 }
 
+/**
+ * Check if payment method is Epusdt (USDT)
+ *
+ * Epusdt redirects to the gateway's hosted USDT invoice page instead of
+ * submitting the generic epay form, so it must be special-cased in payment
+ * dispatch logic.
+ */
+export function isEpusdtPayment(paymentType: string): boolean {
+  return paymentType === PAYMENT_TYPES.EPUSDT
+}
+
 export interface PaymentProcessors {
   regular: (topupAmount: number, paymentType: string) => Promise<boolean>
   waffo: (topupAmount: number, payMethodIndex: number) => Promise<boolean>
   waffoPancake: (topupAmount: number) => Promise<boolean>
+  epusdt: (topupAmount: number) => Promise<boolean>
 }
 
 export async function dispatchSelectedPayment(
@@ -114,6 +126,10 @@ export async function dispatchSelectedPayment(
 
   if (isWaffoPancakePayment(paymentMethod.type)) {
     return processors.waffoPancake(topupAmount)
+  }
+
+  if (isEpusdtPayment(paymentMethod.type)) {
+    return processors.epusdt(topupAmount)
   }
 
   return processors.regular(topupAmount, paymentMethod.type)
@@ -134,6 +150,10 @@ export function getDefaultPaymentType(topupInfo: TopupInfo | null): string {
 
   if (topupInfo.enable_stripe_topup) {
     return PAYMENT_TYPES.STRIPE
+  }
+
+  if (topupInfo.enable_epusdt_topup) {
+    return PAYMENT_TYPES.EPUSDT
   }
 
   if (topupInfo.enable_waffo_topup) {
@@ -157,6 +177,10 @@ export function getMinTopupAmount(topupInfo: TopupInfo | null): number {
 
   if (topupInfo.enable_online_topup) {
     return topupInfo.min_topup
+  }
+
+  if (topupInfo.enable_epusdt_topup) {
+    return topupInfo.epusdt_min_topup || DEFAULT_MIN_TOPUP
   }
 
   if (topupInfo.enable_stripe_topup) {

@@ -353,3 +353,54 @@ func TestRechargeEpayEnforcesFinalWalletQuotaLimit(t *testing.T) {
 		})
 	}
 }
+
+func TestRechargeEpusdtCreditsQuotaExactlyOnce(t *testing.T) {
+	truncateTables(t)
+
+	oldQuotaPerUnit := common.QuotaPerUnit
+	common.QuotaPerUnit = 500000
+	t.Cleanup(func() { common.QuotaPerUnit = oldQuotaPerUnit })
+
+	user := insertUserForPaymentGuardTest(t, 601, 0)
+	order := createEpayTestOrder(t, user.Id, "EPUSDTTESTONCE", PaymentProviderEpusdt, common.TopUpStatusPending)
+
+	alreadyDone, err := RechargeEpusdt(order.TradeNo, "127.0.0.1")
+	require.NoError(t, err)
+	assert.False(t, alreadyDone)
+	assert.Equal(t, 2*500000, getUserQuotaForPaymentGuardTest(t, user.Id))
+
+	reloaded := GetTopUpByTradeNo(order.TradeNo)
+	require.NotNil(t, reloaded)
+	assert.Equal(t, common.TopUpStatusSuccess, reloaded.Status)
+	assert.NotZero(t, reloaded.CompleteTime)
+
+	alreadyDone, err = RechargeEpusdt(order.TradeNo, "127.0.0.1")
+	require.NoError(t, err)
+	assert.True(t, alreadyDone)
+	assert.Equal(t, 2*500000, getUserQuotaForPaymentGuardTest(t, user.Id))
+}
+
+func TestRechargeEpusdtRejectsForeignAndNonPendingOrders(t *testing.T) {
+	truncateTables(t)
+
+	user := insertUserForPaymentGuardTest(t, 602, 7)
+
+	t.Run("order from another payment provider", func(t *testing.T) {
+		order := createEpayTestOrder(t, user.Id, "EPUSDTTESTSTRIPE", PaymentProviderStripe, common.TopUpStatusPending)
+		_, err := RechargeEpusdt(order.TradeNo, "127.0.0.1")
+		assert.ErrorIs(t, err, ErrPaymentMethodMismatch)
+		assert.Equal(t, 7, getUserQuotaForPaymentGuardTest(t, user.Id))
+	})
+
+	t.Run("order that is not pending", func(t *testing.T) {
+		order := createEpayTestOrder(t, user.Id, "EPUSDTTESTEXPIRED", PaymentProviderEpusdt, common.TopUpStatusExpired)
+		_, err := RechargeEpusdt(order.TradeNo, "127.0.0.1")
+		assert.ErrorIs(t, err, ErrTopUpStatusInvalid)
+		assert.Equal(t, 7, getUserQuotaForPaymentGuardTest(t, user.Id))
+	})
+
+	t.Run("missing order", func(t *testing.T) {
+		_, err := RechargeEpusdt("EPUSDTTESTMISSING", "127.0.0.1")
+		assert.ErrorIs(t, err, ErrTopUpNotFound)
+	})
+}

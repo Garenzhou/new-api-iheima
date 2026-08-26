@@ -108,3 +108,19 @@ func isEpayWebhookConfigured() bool {
 func isEpayWebhookEnabled() bool {
 	return isEpayTopUpEnabled()
 }
+
+func isEpusdtTopUpEnabled() bool {
+	if !isPaymentComplianceConfirmed() {
+		return false
+	}
+	return isEpusdtWebhookConfigured()
+}
+
+func isEpusdtWebhookConfigured() bool {
+	return strings.TrimSpace(setting.EpusdtAddress) != "" &&
+		strings.TrimSpace(setting.EpusdtAuthToken) != ""
+}
+
+func isEpusdtWebhookEnabled() bool {
+	return isEpusdtTopUpEnabled()
+}

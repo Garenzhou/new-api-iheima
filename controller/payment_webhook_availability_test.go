@@ -167,3 +167,35 @@ func TestEpayWebhookEnabledRequiresTopUpAndWebhookConfig(t *testing.T) {
 	operation_setting.PayMethods = nil
 	require.False(t, isEpayWebhookEnabled())
 }
+
+func TestEpusdtWebhookEnabledRequiresConfig(t *testing.T) {
+	confirmPaymentComplianceForTest(t)
+	originalAddress := setting.EpusdtAddress
+	originalToken := setting.EpusdtAuthToken
+	t.Cleanup(func() {
+		setting.EpusdtAddress = originalAddress
+		setting.EpusdtAuthToken = originalToken
+	})
+
+	setting.EpusdtAddress = ""
+	setting.EpusdtAuthToken = ""
+	require.False(t, isEpusdtWebhookEnabled())
+
+	paymentSetting := operation_setting.GetPaymentSetting()
+	originalConfirmed := paymentSetting.ComplianceConfirmed
+	t.Cleanup(func() { paymentSetting.ComplianceConfirmed = originalConfirmed })
+	paymentSetting.ComplianceConfirmed = false
+	setting.EpusdtAddress = "https://pay.example.com"
+	setting.EpusdtAuthToken = "epusdt_token"
+	require.False(t, isEpusdtWebhookEnabled())
+
+	paymentSetting.ComplianceConfirmed = true
+	paymentSetting.ComplianceTermsVersion = operation_setting.CurrentComplianceTermsVersion
+	require.True(t, isEpusdtWebhookEnabled())
+
+	setting.EpusdtAddress = "https://pay.example.com/"
+	require.True(t, isEpusdtWebhookEnabled())
+
+	setting.EpusdtAuthToken = ""
+	require.False(t, isEpusdtWebhookEnabled())
+}
