@@ -73,7 +73,11 @@ export function convertDetectedLanguage(value: string): string {
   ) {
     return 'zhTW'
   }
-  return 'zhCN'
+  // Simplified Chinese (zh-CN / zh-Hans / bare zh) is intentionally not
+  // auto-selected: it is reserved for admins and must be chosen explicitly
+  // from the language switcher. Anonymous Chinese-locale browsers fall back
+  // to Traditional Chinese instead of Simplified Chinese.
+  return 'zhTW'
 }
 
 /**

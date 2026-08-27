@@ -34,6 +34,7 @@ import {
   INTERFACE_LANGUAGE_OPTIONS,
   normalizeInterfaceLanguage,
 } from '@/i18n/languages'
+import { ROLE } from '@/lib/roles'
 import { useAuthStore } from '@/stores/auth-store'
 
 import { updateUserLanguage } from '../api'
@@ -45,21 +46,38 @@ type LanguagePreferencesCardProps = {
   onProfileUpdate: () => void
 }
 
+// Simplified Chinese is reserved for admins, matching the LanguageSwitcher.
+const ADMIN_ONLY_LANGUAGE = 'zhCN'
+
 export function LanguagePreferencesCard(props: LanguagePreferencesCardProps) {
   const { t, i18n } = useTranslation()
   const { auth } = useAuthStore()
   const [saving, setSaving] = useState(false)
+
+  const isAdmin = auth.user != null && auth.user.role >= ROLE.ADMIN
+  const visibleOptions = isAdmin
+    ? INTERFACE_LANGUAGE_OPTIONS
+    : INTERFACE_LANGUAGE_OPTIONS.filter(
+        (language) => language.code !== ADMIN_ONLY_LANGUAGE
+      )
 
   const savedLanguage = useMemo(() => {
     const settings = parseUserSettings(props.profile?.setting)
     return normalizeInterfaceLanguage(settings.language || i18n.language)
   }, [props.profile?.setting, i18n.language])
 
-  const [currentLanguage, setCurrentLanguage] = useState(savedLanguage)
+  // Non-admins must never end up on Simplified Chinese even if a stale
+  // preference points there; fall back to English for the select display.
+  let effectiveCurrentLanguage = savedLanguage
+  if (!isAdmin && savedLanguage === ADMIN_ONLY_LANGUAGE) {
+    effectiveCurrentLanguage = 'en'
+  }
+
+  const [currentLanguage, setCurrentLanguage] = useState(effectiveCurrentLanguage)
 
   useEffect(() => {
-    setCurrentLanguage(savedLanguage)
-  }, [savedLanguage])
+    setCurrentLanguage(effectiveCurrentLanguage)
+  }, [effectiveCurrentLanguage])
 
   const handleLanguageChange = async (language: string | null) => {
     if (!language) return
@@ -121,7 +139,7 @@ export function LanguagePreferencesCard(props: LanguagePreferencesCardProps) {
         </div>
         <div className='flex items-center gap-2 sm:min-w-48'>
           <Select
-            items={INTERFACE_LANGUAGE_OPTIONS.map((language) => ({
+            items={visibleOptions.map((language) => ({
               value: language.code,
               label: language.label,
             }))}
@@ -134,7 +152,7 @@ export function LanguagePreferencesCard(props: LanguagePreferencesCardProps) {
             </SelectTrigger>
             <SelectContent alignItemWithTrigger={false}>
               <SelectGroup>
-                {INTERFACE_LANGUAGE_OPTIONS.map((language) => (
+                {visibleOptions.map((language) => (
                   <SelectItem key={language.code} value={language.code}>
                     {language.label}
                   </SelectItem>

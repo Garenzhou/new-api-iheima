@@ -70,8 +70,9 @@ describe('convertDetectedLanguage', () => {
     ['fr-FR', 'fr-FR'],
     ['ja', 'ja'],
     // Chinese codes are mapped to the project-internal codes.
-    ['zh-CN', 'zhCN'],
-    ['zh', 'zhCN'],
+    ['zh-CN', 'zhTW'],
+    ['zh', 'zhTW'],
+    ['zh-Hans', 'zhTW'],
     ['zh-TW', 'zhTW'],
     ['zh-HK', 'zhTW'],
     ['zh-MO', 'zhTW'],

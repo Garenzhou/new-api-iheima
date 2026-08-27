@@ -17,7 +17,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import { Languages, Check } from 'lucide-react'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/components/ui/button'
@@ -33,12 +33,32 @@ import {
 } from '@/i18n/languages'
 import { api } from '@/lib/api'
 import { cn } from '@/lib/utils'
+import { ROLE } from '@/lib/roles'
 import { useAuthStore } from '@/stores/auth-store'
+
+// Simplified Chinese is reserved for admins. Non-admin users cannot select it
+// from the switcher and we also force-switch away from it if it got applied
+// through a stored preference before this restriction existed.
+const ADMIN_ONLY_LANGUAGE = 'zhCN'
 
 export function LanguageSwitcher() {
   const { i18n, t } = useTranslation()
   const user = useAuthStore((s) => s.auth.user)
+  const isAdmin = user != null && user.role >= ROLE.ADMIN
   const currentLanguage = normalizeInterfaceLanguage(i18n.language)
+
+  useEffect(() => {
+    if (!isAdmin && i18n.language === ADMIN_ONLY_LANGUAGE) {
+      void i18n.changeLanguage('en')
+    }
+  }, [isAdmin, i18n])
+
+  const visibleOptions = isAdmin
+    ? INTERFACE_LANGUAGE_OPTIONS
+    : INTERFACE_LANGUAGE_OPTIONS.filter(
+        (lang) => lang.code !== ADMIN_ONLY_LANGUAGE
+      )
+
   const handleChangeLanguage = useCallback(
     async (code: string) => {
       await i18n.changeLanguage(code)
@@ -62,7 +82,7 @@ export function LanguageSwitcher() {
         <span className='sr-only'>{t('Change language')}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
-        {INTERFACE_LANGUAGE_OPTIONS.map((lang) => (
+        {visibleOptions.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
             onClick={() => handleChangeLanguage(lang.code)}
