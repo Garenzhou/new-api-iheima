@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next'
 import { SiGithub, SiWechat, SiLinux } from 'react-icons/si'
 import { toast } from 'sonner'
 
-import { IconDiscord } from '@/assets/brand-icons'
+import { IconDiscord, IconGoogle, IconMicrosoft } from '@/assets/brand-icons'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { StatusBadge } from '@/components/status-badge'
 import { Button } from '@/components/ui/button'
@@ -44,6 +44,8 @@ import { api } from '@/lib/api'
 import {
   buildDiscordOAuthUrl,
   buildGitHubOAuthUrl,
+  buildGoogleOAuthUrl,
+  buildMicrosoftOAuthUrl,
   indexCustomOAuthBindings,
   buildLinuxDOOAuthUrl,
   buildOIDCOAuthUrl,
@@ -333,6 +335,46 @@ export function AccountBindingsTab({
           if (clientId) {
             void startOAuthBinding('github', (state) =>
               buildGitHubOAuthUrl(clientId, state)
+            )
+          }
+        },
+      },
+      {
+        id: 'google',
+        label: t('Google'),
+        icon: IconGoogle,
+        value: (profile as unknown as Record<string, unknown>).google_id as
+          | string
+          | undefined,
+        isBound: Boolean(
+          (profile as unknown as Record<string, unknown>).google_id
+        ),
+        isEnabled: status?.google_oauth || false,
+        onBind: () => {
+          const clientId = status?.google_client_id
+          if (clientId) {
+            void startOAuthBinding('google', (state) =>
+              buildGoogleOAuthUrl(clientId, state)
+            )
+          }
+        },
+      },
+      {
+        id: 'microsoft',
+        label: t('Microsoft'),
+        icon: IconMicrosoft,
+        value: (profile as unknown as Record<string, unknown>).microsoft_id as
+          | string
+          | undefined,
+        isBound: Boolean(
+          (profile as unknown as Record<string, unknown>).microsoft_id
+        ),
+        isEnabled: status?.microsoft_oauth || false,
+        onBind: () => {
+          const clientId = status?.microsoft_client_id
+          if (clientId) {
+            void startOAuthBinding('microsoft', (state) =>
+              buildMicrosoftOAuthUrl(clientId, state)
             )
           }
         },

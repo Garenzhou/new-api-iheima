@@ -28,6 +28,8 @@ import {
   buildDiscordOAuthUrl,
   buildOIDCOAuthUrl,
   buildLinuxDOOAuthUrl,
+  buildGoogleOAuthUrl,
+  buildMicrosoftOAuthUrl,
 } from '../lib/oauth'
 import { pickTelegramAuthorization } from '../lib/telegram-login'
 import type { SystemStatus, CustomOAuthProviderInfo } from '../types'
@@ -101,6 +103,40 @@ export function useOAuthLogin(
       setIsLoading(false)
       setGithubButtonText(t('Continue with GitHub'))
       setGithubButtonDisabled(false)
+    }
+  }
+
+  const handleGoogleLogin = async () => {
+    if (!status?.google_client_id) return
+
+    setIsLoading(true)
+    try {
+      await resetSession()
+      const state = await createOAuthFlow('google', 'login')
+
+      const url = buildGoogleOAuthUrl(status.google_client_id, state)
+      window.open(url, '_self')
+    } catch {
+      toast.error(t('Failed to start Google login'))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleMicrosoftLogin = async () => {
+    if (!status?.microsoft_client_id) return
+
+    setIsLoading(true)
+    try {
+      await resetSession()
+      const state = await createOAuthFlow('microsoft', 'login')
+
+      const url = buildMicrosoftOAuthUrl(status.microsoft_client_id, state)
+      window.open(url, '_self')
+    } catch {
+      toast.error(t('Failed to start Microsoft login'))
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -238,6 +274,8 @@ export function useOAuthLogin(
     isTelegramDialogOpen,
     isTelegramPending,
     handleGitHubLogin,
+    handleGoogleLogin,
+    handleMicrosoftLogin,
     handleDiscordLogin,
     handleOIDCLogin,
     handleLinuxDOLogin,

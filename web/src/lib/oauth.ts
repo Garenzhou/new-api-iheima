@@ -42,6 +42,38 @@ export function buildGitHubOAuthUrl(clientId: string, state: string): string {
 }
 
 /**
+ * Build Google OAuth URL
+ */
+export function buildGoogleOAuthUrl(clientId: string, state: string): string {
+  const url = new URL('https://accounts.google.com/o/oauth2/v2/auth')
+  url.searchParams.set('client_id', clientId)
+  url.searchParams.set('redirect_uri', `${window.location.origin}/oauth/google`)
+  url.searchParams.set('response_type', 'code')
+  url.searchParams.set('scope', 'openid email profile')
+  url.searchParams.set('state', state)
+  return url.toString()
+}
+
+/**
+ * Build Microsoft OAuth URL
+ */
+export function buildMicrosoftOAuthUrl(
+  clientId: string,
+  state: string
+): string {
+  const url = new URL(
+    'https://login.microsoftonline.com/common/oauth2/v2.0/authorize'
+  )
+  url.searchParams.set('client_id', clientId)
+  url.searchParams.set('redirect_uri', `${window.location.origin}/oauth/microsoft`)
+  url.searchParams.set('response_type', 'code')
+  url.searchParams.set('scope', 'openid email profile User.Read')
+  url.searchParams.set('response_mode', 'query')
+  url.searchParams.set('state', state)
+  return url.toString()
+}
+
+/**
  * Build Discord OAuth URL
  */
 export function buildDiscordOAuthUrl(clientId: string, state: string): string {

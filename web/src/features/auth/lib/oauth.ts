@@ -23,6 +23,8 @@ export {
   buildDiscordOAuthUrl,
   buildOIDCOAuthUrl,
   buildLinuxDOOAuthUrl,
+  buildGoogleOAuthUrl,
+  buildMicrosoftOAuthUrl,
 } from '@/lib/oauth'
 
 // ============================================================================
@@ -45,6 +47,24 @@ export function getAvailableOAuthProviders(
       type: 'github',
       enabled: true,
       clientId: status.github_client_id,
+    })
+  }
+
+  if (status.google_oauth) {
+    providers.push({
+      name: 'Google',
+      type: 'google',
+      enabled: true,
+      clientId: status.google_client_id,
+    })
+  }
+
+  if (status.microsoft_oauth) {
+    providers.push({
+      name: 'Microsoft',
+      type: 'microsoft',
+      enabled: true,
+      clientId: status.microsoft_client_id,
     })
   }
 
@@ -94,6 +114,8 @@ export function hasOAuthProviders(status: SystemStatus | null): boolean {
   if (!status) return false
   return !!(
     status.github_oauth ||
+    status.google_oauth ||
+    status.microsoft_oauth ||
     status.discord_oauth ||
     status.oidc_enabled ||
     status.linuxdo_oauth ||

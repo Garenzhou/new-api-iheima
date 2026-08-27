@@ -333,6 +333,24 @@ func TestUpdateUserBindColumnRejectsNonWhitelistedColumns(t *testing.T) {
 	assert.Error(t, UpdateUserBindColumn(0, "github_id", "x"))
 }
 
+func TestUpdateUserBindColumnSupportsGoogleAndMicrosoftColumns(t *testing.T) {
+	truncateTables(t)
+
+	user := createUserBindTestUser(t)
+	require.NoError(t, UpdateUserBindColumn(user.Id, "google_id", "google-sub-1"))
+	require.NoError(t, UpdateUserBindColumn(user.Id, "microsoft_id", "microsoft-oid-1"))
+
+	reloaded, err := GetUserById(user.Id, true)
+	require.NoError(t, err)
+	assert.Equal(t, "google-sub-1", reloaded.GoogleId)
+	assert.Equal(t, "microsoft-oid-1", reloaded.MicrosoftId)
+
+	// A user found by Google ID must round-trip through the same binding.
+	var byGoogle User
+	require.NoError(t, DB.Where("google_id = ?", "google-sub-1").First(&byGoogle).Error)
+	assert.Equal(t, user.Id, byGoogle.Id)
+}
+
 func TestValidateAndFillRejectsPasswordlessUser(t *testing.T) {
 	setupUserUpdateTestState(t)
 
