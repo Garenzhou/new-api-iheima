@@ -32,6 +32,8 @@ const OBFUSCATED_KEYS = [
 const BRAND_AND_LITERAL_KEYS = new Set([
   'AI Proxy',
   'AIGC2D',
+  'AToken Router',
+  'AToken Router &lt;noreply@example.com&gt;',
   'Alipay',
   'Anthropic',
   'API URL',

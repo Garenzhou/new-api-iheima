@@ -370,7 +370,7 @@ export function EmailSettingsSection({
                 <FormControl>
                   <Input
                     autoComplete='off'
-                    placeholder={t('AToken Relay &lt;noreply@example.com&gt;')}
+                    placeholder={t('AToken Router &lt;noreply@example.com&gt;')}
                     {...field}
                     onChange={(event) => field.onChange(event.target.value)}
                   />

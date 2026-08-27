@@ -26,7 +26,7 @@ import {
 
 const defaultSiteSettings: SiteSettings = {
   Notice: '',
-  SystemName: 'AToken Relay',
+  SystemName: 'AToken Router',
   Logo: '',
   Footer: '',
   About: '',

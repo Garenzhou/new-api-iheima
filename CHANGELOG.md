@@ -1,12 +1,19 @@
 # Changelog
 
-本项目记录 AToken Relay（new-api fork）的重要变更。格式基于
+本项目记录 AToken Router（new-api fork）的重要变更。格式基于
 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)。
 
-All notable changes to AToken Relay (a new-api fork) are documented here.
+All notable changes to AToken Router (a new-api fork) are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
+
+### Changed
+
+- **品牌名从 AToken Relay 更改为 AToken Router**：全站统一更新品牌名，参考
+  Open Router 的命名。涉及后端系统名（`SystemName`、OpenRouter 上报标题、
+  Waffo 充值商品名）、前端页面标题/meta、默认系统名、邮箱发件人占位符、
+  渠道提示文案，以及全部 9 种语言的 i18n 文案。
 
 ### Added
 
