@@ -61,6 +61,21 @@ export type WaffoPancakePaymentResponse = ApiResponse<
 >
 
 /**
+ * Epusdt payment request parameters
+ */
+export interface EpusdtPaymentRequest {
+  /** Topup amount */
+  amount: number
+}
+
+/**
+ * Epusdt payment response — the gateway checkout URL for the USDT invoice
+ */
+export type EpusdtPaymentResponse = ApiResponse<{ payment_url?: string }> & {
+  url?: string
+}
+
+/**
  * Creem product configuration
  */
 export interface CreemProduct {
@@ -122,6 +137,10 @@ export interface WaffoPayMethod {
 export interface TopupInfo {
   /** Whether online topup is enabled */
   enable_online_topup: boolean
+  /** Whether Epusdt (USDT) topup is enabled */
+  enable_epusdt_topup?: boolean
+  /** Minimum topup amount for Epusdt */
+  epusdt_min_topup?: number
   /** Whether Stripe topup is enabled */
   enable_stripe_topup: boolean
   /** Available payment methods */

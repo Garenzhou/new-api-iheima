@@ -288,6 +288,10 @@ export type BillingSettings = {
   PayAddress: string
   EpayId: string
   EpayKey: string
+  EpusdtAddress: string
+  EpusdtAuthToken: string
+  EpusdtTradeType: string
+  EpusdtMinTopUp: number
   Price: number
   MinTopUp: number
   CustomCallbackAddress: string

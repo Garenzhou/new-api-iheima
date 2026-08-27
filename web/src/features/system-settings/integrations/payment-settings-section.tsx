@@ -102,6 +102,14 @@ const paymentSchema = z.object({
   }, 'Provide a valid callback URL starting with http:// or https://'),
   EpayId: z.string(),
   EpayKey: z.string(),
+  EpusdtAddress: z.string().refine((value) => {
+    const trimmed = value.trim()
+    if (!trimmed) return true
+    return /^https?:\/\//.test(trimmed)
+  }, 'Provide a valid gateway URL starting with http:// or https://'),
+  EpusdtAuthToken: z.string(),
+  EpusdtTradeType: z.string(),
+  EpusdtMinTopUp: z.coerce.number().min(1),
   Price: z.coerce.number().min(0),
   MinTopUp: z.coerce.number().min(0),
   CustomCallbackAddress: z
@@ -421,6 +429,10 @@ export function PaymentSettingsSection({
       PayAddress: removeTrailingSlash(values.PayAddress),
       EpayId: values.EpayId.trim(),
       EpayKey: values.EpayKey.trim(),
+      EpusdtAddress: removeTrailingSlash(values.EpusdtAddress),
+      EpusdtAuthToken: values.EpusdtAuthToken.trim(),
+      EpusdtTradeType: values.EpusdtTradeType.trim() || 'usdt.trc20',
+      EpusdtMinTopUp: values.EpusdtMinTopUp,
       Price: values.Price,
       MinTopUp: values.MinTopUp,
       CustomCallbackAddress: removeTrailingSlash(values.CustomCallbackAddress),
@@ -463,6 +475,11 @@ export function PaymentSettingsSection({
       PayAddress: removeTrailingSlash(initialRef.current.PayAddress),
       EpayId: initialRef.current.EpayId.trim(),
       EpayKey: initialRef.current.EpayKey.trim(),
+      EpusdtAddress: removeTrailingSlash(initialRef.current.EpusdtAddress),
+      EpusdtAuthToken: initialRef.current.EpusdtAuthToken.trim(),
+      EpusdtTradeType:
+        initialRef.current.EpusdtTradeType.trim() || 'usdt.trc20',
+      EpusdtMinTopUp: initialRef.current.EpusdtMinTopUp,
       Price: initialRef.current.Price,
       MinTopUp: initialRef.current.MinTopUp,
       CustomCallbackAddress: removeTrailingSlash(
@@ -518,6 +535,28 @@ export function PaymentSettingsSection({
 
     if (sanitized.EpayKey && sanitized.EpayKey !== initial.EpayKey) {
       updates.push({ key: 'EpayKey', value: sanitized.EpayKey })
+    }
+
+    if (sanitized.EpusdtAddress !== initial.EpusdtAddress) {
+      updates.push({ key: 'EpusdtAddress', value: sanitized.EpusdtAddress })
+    }
+
+    if (
+      sanitized.EpusdtAuthToken &&
+      sanitized.EpusdtAuthToken !== initial.EpusdtAuthToken
+    ) {
+      updates.push({
+        key: 'EpusdtAuthToken',
+        value: sanitized.EpusdtAuthToken,
+      })
+    }
+
+    if (sanitized.EpusdtTradeType !== initial.EpusdtTradeType) {
+      updates.push({ key: 'EpusdtTradeType', value: sanitized.EpusdtTradeType })
+    }
+
+    if (sanitized.EpusdtMinTopUp !== initial.EpusdtMinTopUp) {
+      updates.push({ key: 'EpusdtMinTopUp', value: sanitized.EpusdtMinTopUp })
     }
 
     if (sanitized.Price !== initial.Price) {
@@ -877,9 +916,10 @@ export function PaymentSettingsSection({
           />
           <Tabs defaultValue='general' className='min-w-0'>
             <div className='overflow-x-auto pb-1'>
-              <TabsList className='grid min-w-[44rem] grid-cols-6'>
+              <TabsList className='grid min-w-[52rem] grid-cols-7'>
                 <TabsTrigger value='general'>{t('General')}</TabsTrigger>
                 <TabsTrigger value='epay'>Epay</TabsTrigger>
+                <TabsTrigger value='epusdt'>Epusdt</TabsTrigger>
                 <TabsTrigger value='stripe'>{t('Stripe')}</TabsTrigger>
                 <TabsTrigger value='creem'>Creem</TabsTrigger>
                 <TabsTrigger value='waffo-pancake'>Waffo Pancake</TabsTrigger>
@@ -1244,6 +1284,126 @@ export function PaymentSettingsSection({
                         </FormControl>
                         <FormDescription>
                           {t('Leave blank unless rotating the secret')}
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value='epusdt' className={paymentTabContentClassName}>
+              <div className='space-y-4'>
+                <div>
+                  <h3 className='text-lg font-medium'>{t('Epusdt Gateway')}</h3>
+                  <p className='text-muted-foreground text-sm'>
+                    {t(
+                      'Configuration for the Epusdt (USDT) payment integration'
+                    )}
+                  </p>
+                </div>
+
+                <Alert>
+                  <ShieldAlert className='h-4 w-4' />
+                  <AlertTitle>{t('Epusdt webhook URL')}</AlertTitle>
+                  <AlertDescription>
+                    {t(
+                      'Configure this site as the asynchronous notification address in your gateway: <ServerAddress>/api/user/epusdt/notify'
+                    )}
+                  </AlertDescription>
+                </Alert>
+
+                <div className='grid gap-6 md:grid-cols-2'>
+                  <FormField
+                    control={form.control}
+                    name='EpusdtAddress'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('Epusdt endpoint')}</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={t('https://pay.example.com')}
+                            {...field}
+                            onChange={(event) =>
+                              field.onChange(event.target.value)
+                            }
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          {t('Base address provided by your Epusdt service')}
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name='EpusdtAuthToken'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('Epusdt auth token')}</FormLabel>
+                        <FormControl>
+                          <Input
+                            type='password'
+                            placeholder={t('Enter new key to update')}
+                            autoComplete='new-password'
+                            {...field}
+                            onChange={(event) =>
+                              field.onChange(event.target.value)
+                            }
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          {t('Leave blank unless rotating the secret')}
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name='EpusdtTradeType'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('Trade type')}</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder='usdt.trc20'
+                            {...field}
+                            onChange={(event) =>
+                              field.onChange(event.target.value)
+                            }
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          {t(
+                            'Blockchain used for settlement, for example usdt.trc20 or usdt.erc20'
+                          )}
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name='EpusdtMinTopUp'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('Minimum top-up (USD)')}</FormLabel>
+                        <FormControl>
+                          <Input
+                            type='number'
+                            step='1'
+                            min={1}
+                            {...safeNumberFieldProps(field)}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          {t('Smallest USD amount users can recharge (Epusdt)')}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>

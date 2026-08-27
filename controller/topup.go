@@ -96,8 +96,30 @@ func GetTopUpInfo(c *gin.Context) {
 		}
 	}
 
+	// 如果启用了 Epusdt（USDT）支付，添加到支付方式列表
+	enableEpusdt := isEpusdtTopUpEnabled()
+	if enableEpusdt {
+		hasEpusdt := false
+		for _, method := range payMethods {
+			if method["type"] == model.PaymentProviderEpusdt {
+				hasEpusdt = true
+				break
+			}
+		}
+
+		if !hasEpusdt {
+			payMethods = append(payMethods, map[string]string{
+				"name":      "USDT",
+				"type":      model.PaymentProviderEpusdt,
+				"color":     "#26A17B",
+				"min_topup": strconv.Itoa(setting.EpusdtMinTopUp),
+			})
+		}
+	}
+
 	data := gin.H{
 		"enable_online_topup":              isEpayTopUpEnabled(),
+		"enable_epusdt_topup":              isEpusdtTopUpEnabled(),
 		"enable_stripe_topup":              isStripeTopUpEnabled(),
 		"enable_creem_topup":               isCreemTopUpEnabled(),
 		"enable_waffo_topup":               enableWaffo,
@@ -114,6 +136,7 @@ func GetTopUpInfo(c *gin.Context) {
 		"creem_products":          setting.CreemProducts,
 		"pay_methods":             payMethods,
 		"min_topup":               operation_setting.MinTopUp,
+		"epusdt_min_topup":        setting.EpusdtMinTopUp,
 		"stripe_min_topup":        setting.StripeMinTopUp,
 		"waffo_min_topup":         setting.WaffoMinTopUp,
 		"waffo_pancake_min_topup": setting.WaffoPancakeMinTopUp,
