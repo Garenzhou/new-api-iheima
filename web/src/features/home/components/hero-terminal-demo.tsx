@@ -207,7 +207,13 @@ export function HeroTerminalDemo(props: HeroTerminalDemoProps) {
   const accent = ACCENT_CLASSES[demo.accent]
 
   return (
-    <div className={cn('mx-auto w-full max-w-2xl', props.className)}>
+    <div
+      dir='ltr'
+      className={cn(
+        'mx-auto w-full max-w-2xl text-left',
+        props.className
+      )}
+    >
       <div
         className={cn(
           'overflow-hidden rounded-2xl border backdrop-blur-sm',

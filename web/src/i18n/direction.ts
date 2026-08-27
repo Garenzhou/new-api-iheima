@@ -16,13 +16,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import dayjs from 'dayjs'
-import 'dayjs/locale/ar'
-import 'dayjs/locale/ko'
-import 'dayjs/locale/zh-cn'
-import 'dayjs/locale/zh-tw'
-import relativeTime from 'dayjs/plugin/relativeTime'
+// Map an i18n language code to the text direction that the document should
+// use. RTL languages auto-flip the layout (and the dir cookie/state) when
+// the user picks them. LTR is the safe default for unknown inputs.
+const RTL_LANGS = new Set(['ar', 'fa', 'he'])
 
-dayjs.extend(relativeTime)
+export type TextDirection = 'ltr' | 'rtl'
 
-export default dayjs
+export function getDirection(lang?: string | null): TextDirection {
+  const base = (lang ?? '').toLowerCase().split('-')[0]
+  return RTL_LANGS.has(base) ? 'rtl' : 'ltr'
+}

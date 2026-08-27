@@ -17,8 +17,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import { DirectionProvider as BaseDirectionProvider } from '@base-ui/react/direction-provider'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
+import i18n from '@/i18n/config'
+import { getDirection } from '@/i18n/direction'
 import { getCookie, setCookie, removeCookie } from '@/lib/cookies'
 
 export type Direction = 'ltr' | 'rtl'
@@ -45,6 +47,31 @@ export function DirectionProvider({ children }: { children: React.ReactNode }) {
     const htmlElement = document.documentElement
     htmlElement.setAttribute('dir', dir)
   }, [dir])
+
+  // Auto-follow the active i18n language. On every `languageChanged`
+  // event, compute the language's natural direction and apply it (the
+  // effect above will write <html dir> and setDir persists the cookie).
+  // The manual `dir` cookie override is preserved across page reloads
+  // and across same-language navigation: the auto-follow only fires on
+  // an explicit `languageChanged` event, not on mount, so a manual LTR
+  // choice for Arabic survives a refresh.
+  const dirRef = useRef(dir)
+  useEffect(() => {
+    dirRef.current = dir
+  }, [dir])
+  useEffect(() => {
+    const handler = (lng: string) => {
+      const next = getDirection(lng)
+      if (next !== dirRef.current) {
+        setDir(next)
+      }
+    }
+    i18n.on('languageChanged', handler)
+    return () => {
+      i18n.off('languageChanged', handler)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const setDir = (dir: Direction) => {
     _setDir(dir)

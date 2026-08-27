@@ -21,6 +21,7 @@ import { useTranslation } from 'react-i18next'
 
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSystemConfig } from '@/hooks/use-system-config'
+import { RegionRestrictionNotice } from '@/features/auth/components/region-restriction-notice'
 
 type AuthLayoutProps = {
   children: React.ReactNode
@@ -55,6 +56,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
       </Link>
       <div className='container flex items-center pt-16 sm:pt-0'>
         <div className='mx-auto flex w-full flex-col justify-center space-y-2 px-4 py-8 sm:w-[480px] sm:p-8'>
+          <RegionRestrictionNotice />
           {children}
         </div>
       </div>

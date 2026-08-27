@@ -41,3 +41,15 @@ service/relayconvert/chat_responses_live_local_test.go
 service/openaicompat/chat_responses_live_local_test.go
 go.work
 go.work.sum
+
+# i18n translation working files
+web/scripts/.translate-ar-cache.json
+
+# i18n translation working files
+web/scripts/.translate-*-cache.json
+
+__pycache__/
+*.pyc
+
+# i18n sync temp reports
+web/src/i18n/locales/_reports/*.untranslated.json

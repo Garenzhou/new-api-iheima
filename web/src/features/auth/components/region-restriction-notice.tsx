@@ -16,13 +16,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import dayjs from 'dayjs'
-import 'dayjs/locale/ar'
-import 'dayjs/locale/ko'
-import 'dayjs/locale/zh-cn'
-import 'dayjs/locale/zh-tw'
-import relativeTime from 'dayjs/plugin/relativeTime'
+import { TriangleAlert } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
-dayjs.extend(relativeTime)
-
-export default dayjs
+export function RegionRestrictionNotice() {
+  const { t } = useTranslation()
+  return (
+    <div
+      role='note'
+      className='mb-6 flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs leading-relaxed text-amber-700 dark:text-amber-300'
+    >
+      <TriangleAlert className='mt-0.5 size-4 shrink-0' aria-hidden='true' />
+      <p>{t('Due to legal risks and compliance requirements, this site is not available to users in mainland China or the European Union. Network requests from these regions may be blocked at any time.')}</p>
+    </div>
+  )
+}
