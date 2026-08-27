@@ -53,7 +53,7 @@ describe('normalizeInterfaceLanguage', () => {
     [undefined, 'en'],
   ])('normalizes %p → %p', (input, expected) => {
     expect(normalizeInterfaceLanguage(input as string | null | undefined)).toBe(
-      expected,
+      expected
     )
   })
 })

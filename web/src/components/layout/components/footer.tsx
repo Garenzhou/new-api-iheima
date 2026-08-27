@@ -265,7 +265,9 @@ export function Footer(props: FooterProps) {
               </span>
             </Link>
             <p className='text-muted-foreground/60 mt-3 max-w-[200px] text-xs leading-relaxed'>
-              {t('For Everyday People: Affordable, Polished LLM Token Relay Worldwide')}
+              {t(
+                'For Everyday People: Affordable, Polished LLM Token Relay Worldwide'
+              )}
             </p>
           </div>
 

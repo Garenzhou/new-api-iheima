@@ -36,10 +36,9 @@ const KEYS_GO = path.join(REPO_ROOT, 'i18n', 'keys.go')
 const BATCH_SIZE = Number(process.env.BATCH_SIZE ?? 50)
 const API_KEY = process.env.OPENAI_API_KEY ?? ''
 const MODEL = process.env.OPENAI_MODEL ?? 'gpt-4o-mini'
-const BASE_URL = (process.env.OPENAI_BASE_URL ?? 'https://api.openai.com/v1').replace(
-  /\/+$/,
-  '',
-)
+const BASE_URL = (
+  process.env.OPENAI_BASE_URL ?? 'https://api.openai.com/v1'
+).replace(/\/+$/, '')
 const DRY_RUN = process.env.DRY_RUN === 'true'
 
 // ---- Parsing helpers ----------------------------------------------------
@@ -129,7 +128,9 @@ async function translateBatch(batch) {
   })
   if (!res.ok) {
     const body = await res.text()
-    throw new Error(`API ${res.status} ${res.statusText}: ${body.slice(0, 200)}`)
+    throw new Error(
+      `API ${res.status} ${res.statusText}: ${body.slice(0, 200)}`
+    )
   }
   const data = await res.json()
   const content = data?.choices?.[0]?.message?.content
@@ -140,7 +141,9 @@ async function translateBatch(batch) {
   try {
     parsed = JSON.parse(content)
   } catch {
-    throw new Error(`Invalid JSON in assistant response: ${content.slice(0, 200)}`)
+    throw new Error(
+      `Invalid JSON in assistant response: ${content.slice(0, 200)}`
+    )
   }
   for (const [k] of batch) {
     if (!(k in parsed)) throw new Error(`Missing key in response: ${k}`)
@@ -205,7 +208,7 @@ async function main() {
   }
   const skipCount = keys.length - todo.length
   process.stderr.write(
-    `[info] ${todo.length} keys to translate, ${skipCount} already translated, ${keys.length} total\n`,
+    `[info] ${todo.length} keys to translate, ${skipCount} already translated, ${keys.length} total\n`
   )
   if (todo.length === 0) {
     process.stderr.write('[info] nothing to do\n')
@@ -213,7 +216,7 @@ async function main() {
   }
   if (DRY_RUN) {
     process.stderr.write(
-      `[info] DRY_RUN=true; would translate ${todo.length} keys in ${Math.ceil(todo.length / BATCH_SIZE)} batches\n`,
+      `[info] DRY_RUN=true; would translate ${todo.length} keys in ${Math.ceil(todo.length / BATCH_SIZE)} batches\n`
     )
     return
   }
@@ -227,7 +230,7 @@ async function main() {
     const batchIdx = Math.floor(i / BATCH_SIZE) + 1
     const totalBatches = Math.ceil(todo.length / BATCH_SIZE)
     process.stderr.write(
-      `[info] batch ${batchIdx}/${totalBatches} (${batch.length} keys)... `,
+      `[info] batch ${batchIdx}/${totalBatches} (${batch.length} keys)... `
     )
     try {
       const result = await translateBatch(batch)
@@ -266,7 +269,7 @@ async function main() {
 
   const totalTranslated = translated.size - reverted.length
   process.stderr.write(
-    `[info] wrote ${AR_YAML}: ${totalTranslated} translated, ${fallbackKeys} fallback, ${reverted.length} brand-reverted, ${fallbackBatches} failed batches\n`,
+    `[info] wrote ${AR_YAML}: ${totalTranslated} translated, ${fallbackKeys} fallback, ${reverted.length} brand-reverted, ${fallbackBatches} failed batches\n`
   )
 }
 

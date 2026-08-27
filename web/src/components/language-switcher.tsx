@@ -32,8 +32,8 @@ import {
   normalizeInterfaceLanguage,
 } from '@/i18n/languages'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
 import { ROLE } from '@/lib/roles'
+import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth-store'
 
 // Simplified Chinese is reserved for admins. Non-admin users cannot select it

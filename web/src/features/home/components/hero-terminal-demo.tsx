@@ -209,10 +209,7 @@ export function HeroTerminalDemo(props: HeroTerminalDemoProps) {
   return (
     <div
       dir='ltr'
-      className={cn(
-        'mx-auto w-full max-w-2xl text-left',
-        props.className
-      )}
+      className={cn('mx-auto w-full max-w-2xl text-left', props.className)}
     >
       <div
         className={cn(

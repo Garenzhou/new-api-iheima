@@ -73,7 +73,9 @@ export function LanguagePreferencesCard(props: LanguagePreferencesCardProps) {
     effectiveCurrentLanguage = 'en'
   }
 
-  const [currentLanguage, setCurrentLanguage] = useState(effectiveCurrentLanguage)
+  const [currentLanguage, setCurrentLanguage] = useState(
+    effectiveCurrentLanguage
+  )
 
   useEffect(() => {
     setCurrentLanguage(effectiveCurrentLanguage)

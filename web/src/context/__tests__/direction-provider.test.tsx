@@ -27,8 +27,12 @@ const DIRECTION_COOKIE = 'dir'
 
 function readDirCookie(): string | undefined {
   if (typeof document === 'undefined') return undefined
-  const match = document.cookie.split('; ').find((c) => c.startsWith(`${DIRECTION_COOKIE}=`))
-  return match ? decodeURIComponent(match.split('=').slice(1).join('=')) : undefined
+  const match = document.cookie
+    .split('; ')
+    .find((c) => c.startsWith(`${DIRECTION_COOKIE}=`))
+  return match
+    ? decodeURIComponent(match.split('=').slice(1).join('='))
+    : undefined
 }
 
 function clearDirCookie(): void {
@@ -78,7 +82,7 @@ describe('DirectionProvider', () => {
     const { getByTestId } = render(
       <DirectionProvider>
         <DirectionProbe />
-      </DirectionProvider>,
+      </DirectionProvider>
     )
     await waitFor(() => {
       expect(getByTestId('probe').getAttribute('data-dir')).toBe('rtl')
@@ -89,7 +93,7 @@ describe('DirectionProvider', () => {
     const { getByTestId } = render(
       <DirectionProvider>
         <DirectionProbe />
-      </DirectionProvider>,
+      </DirectionProvider>
     )
     await waitFor(() => {
       expect(getByTestId('probe').getAttribute('data-dir')).toBe('ltr')
@@ -104,7 +108,7 @@ describe('DirectionProvider', () => {
     const { getByTestId } = render(
       <DirectionProvider>
         <DirectionProbe />
-      </DirectionProvider>,
+      </DirectionProvider>
     )
     await waitFor(() => {
       expect(getByTestId('probe').getAttribute('data-dir')).toBe('ltr')
@@ -126,7 +130,7 @@ describe('DirectionProvider', () => {
     const { getByTestId } = render(
       <DirectionProvider>
         <DirectionProbe />
-      </DirectionProvider>,
+      </DirectionProvider>
     )
     await act(async () => {
       i18n.emit('languageChanged', 'ar')
@@ -149,7 +153,7 @@ describe('DirectionProvider', () => {
     const { getByTestId } = render(
       <DirectionProvider>
         <DirectionProbe />
-      </DirectionProvider>,
+      </DirectionProvider>
     )
     await waitFor(() => {
       expect(getByTestId('probe').getAttribute('data-dir')).toBe('ltr')

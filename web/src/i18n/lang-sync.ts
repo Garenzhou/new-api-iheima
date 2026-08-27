@@ -16,8 +16,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import i18n from 'i18next'
 import dayjs from 'dayjs'
+import i18n from 'i18next'
 
 // Map i18next's internal language codes to dayjs locale codes. dayjs uses
 // lowercase BCP-47 (e.g. "zh-cn"), while i18next uses camelCase project
@@ -49,7 +49,8 @@ export function syncHtmlLangAndDayjs(lang: string): void {
   // single import in web/src/lib/dayjs.ts. dayjs exposes its loaded
   // locales as `dayjs.Ls` (a key→definition map); there is no public
   // `locales()` method in dayjs 1.x.
-  const loadedLocales = (dayjs as unknown as { Ls?: Record<string, unknown> }).Ls
+  const loadedLocales = (dayjs as unknown as { Ls?: Record<string, unknown> })
+    .Ls
   if (loadedLocales && Object.hasOwn(loadedLocales, dayjsLocale)) {
     dayjs.locale(dayjsLocale)
   }

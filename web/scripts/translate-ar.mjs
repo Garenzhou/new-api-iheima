@@ -57,10 +57,9 @@ const BATCH_SIZE = Number(process.env.BATCH_SIZE ?? 200)
 const CONCURRENCY = Number(process.env.CONCURRENCY ?? 1)
 const API_KEY = process.env.OPENAI_API_KEY ?? ''
 const MODEL = process.env.OPENAI_MODEL ?? 'gpt-4o-mini'
-const BASE_URL = (process.env.OPENAI_BASE_URL ?? 'https://api.openai.com/v1').replace(
-  /\/+$/,
-  '',
-)
+const BASE_URL = (
+  process.env.OPENAI_BASE_URL ?? 'https://api.openai.com/v1'
+).replace(/\/+$/, '')
 const DRY_RUN = process.env.DRY_RUN === 'true'
 const SKIP_SYNC = process.env.SKIP_SYNC === 'true'
 
@@ -100,7 +99,9 @@ async function translateBatch(batch) {
   })
   if (!res.ok) {
     const body = await res.text()
-    throw new Error(`API ${res.status} ${res.statusText}: ${body.slice(0, 200)}`)
+    throw new Error(
+      `API ${res.status} ${res.statusText}: ${body.slice(0, 200)}`
+    )
   }
   const data = await res.json()
   const content = data?.choices?.[0]?.message?.content
@@ -111,7 +112,9 @@ async function translateBatch(batch) {
   try {
     parsed = JSON.parse(content)
   } catch {
-    throw new Error(`Invalid JSON in assistant response: ${content.slice(0, 200)}`)
+    throw new Error(
+      `Invalid JSON in assistant response: ${content.slice(0, 200)}`
+    )
   }
   // Per-key validation: collect the keys the model produced correctly and
   // report the rest as missing. We deliberately do NOT throw on a single
@@ -131,7 +134,6 @@ async function translateBatch(batch) {
   }
   return { ok, missing }
 }
-
 
 function enforceBrands(en, ar) {
   const reverted = []
@@ -178,7 +180,8 @@ async function readCache() {
   try {
     const text = await readFile(CACHE_FILE, 'utf8')
     const parsed = JSON.parse(text)
-    if (parsed && typeof parsed === 'object') return new Map(Object.entries(parsed))
+    if (parsed && typeof parsed === 'object')
+      return new Map(Object.entries(parsed))
   } catch {
     // No cache yet.
   }
@@ -186,7 +189,11 @@ async function readCache() {
 }
 
 async function writeCache(cache) {
-  await writeFile(CACHE_FILE, `${JSON.stringify(Object.fromEntries(cache), null, 2)}\n`, 'utf8')
+  await writeFile(
+    CACHE_FILE,
+    `${JSON.stringify(Object.fromEntries(cache), null, 2)}\n`,
+    'utf8'
+  )
 }
 
 async function runI18nSync() {
@@ -217,7 +224,12 @@ async function main() {
     // 2. Skip if the on-disk cache has a translation matching the
     //    current English source (re-translate if the source changed).
     const cached = cache.get(k)
-    if (cached && typeof cached === 'object' && cached.en === enVal && cached.ar) {
+    if (
+      cached &&
+      typeof cached === 'object' &&
+      cached.en === enVal &&
+      cached.ar
+    ) {
       translated.set(k, cached.ar)
       continue
     }
@@ -225,7 +237,7 @@ async function main() {
   }
   const skipFromAr = enEntries.length - todo.length - translated.size
   process.stderr.write(
-    `[info] ${todo.length} keys to translate, ${translated.size} from cache, ${skipFromAr} already in ar.json\n`,
+    `[info] ${todo.length} keys to translate, ${translated.size} from cache, ${skipFromAr} already in ar.json\n`
   )
   if (todo.length === 0) {
     process.stderr.write('[info] nothing to do\n')
@@ -233,7 +245,7 @@ async function main() {
   }
   if (DRY_RUN) {
     process.stderr.write(
-      `[info] DRY_RUN=true; would translate ${todo.length} keys in ${Math.ceil(todo.length / BATCH_SIZE)} batches\n`,
+      `[info] DRY_RUN=true; would translate ${todo.length} keys in ${Math.ceil(todo.length / BATCH_SIZE)} batches\n`
     )
     return
   }
@@ -250,7 +262,7 @@ async function main() {
     })
   }
   process.stderr.write(
-    `[info] running ${totalBatches} batches with ${workerCount} concurrent workers\n`,
+    `[info] running ${totalBatches} batches with ${workerCount} concurrent workers\n`
   )
   let nextBatchIdx = 0
   let completedBatches = 0
@@ -267,7 +279,9 @@ async function main() {
       if (claim >= batchRanges.length) return
       const { start, end, idx } = batchRanges[claim]
       const batch = todo.slice(start, end)
-      process.stderr.write(`[info] batch ${idx}/${totalBatches} (${batch.length} keys)... `)
+      process.stderr.write(
+        `[info] batch ${idx}/${totalBatches} (${batch.length} keys)... `
+      )
       try {
         const { ok, missing } = await translateBatch(batch)
         for (const [k, v] of ok) {
@@ -286,7 +300,7 @@ async function main() {
           }
           await persistCache()
           process.stderr.write(
-            `ok (${ok.size} translated, ${missing.length} fallback: ${missing.slice(0, 3).join(', ')}${missing.length > 3 ? '...' : ''})\n`,
+            `ok (${ok.size} translated, ${missing.length} fallback: ${missing.slice(0, 3).join(', ')}${missing.length > 3 ? '...' : ''})\n`
           )
         } else {
           await persistCache()
@@ -334,7 +348,7 @@ async function main() {
 
   const totalTranslated = translated.size - reverted.length
   process.stderr.write(
-    `[info] wrote ${path.relative(REPO_ROOT, AR_JSON)}: ${totalTranslated} translated, ${fallbackKeys} fallback, ${reverted.length} brand-reverted, cache size ${cache.size}\n`,
+    `[info] wrote ${path.relative(REPO_ROOT, AR_JSON)}: ${totalTranslated} translated, ${fallbackKeys} fallback, ${reverted.length} brand-reverted, cache size ${cache.size}\n`
   )
 
   if (SKIP_SYNC) {
