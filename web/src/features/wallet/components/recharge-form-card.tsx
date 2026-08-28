@@ -16,7 +16,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { Gift, ExternalLink, Loader2, Receipt, WalletCards } from 'lucide-react'
+import {
+  Gift,
+  ExternalLink,
+  Loader2,
+  Receipt,
+  WalletCards,
+  Plus,
+} from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -63,6 +70,7 @@ interface RechargeFormCardProps {
   paymentAmount: number
   calculating: boolean
   onPaymentMethodSelect: (method: PaymentMethod) => void
+  onTopupSubmit?: () => void
   paymentLoading: string | null
   redemptionCode: string
   onRedemptionCodeChange: (code: string) => void
@@ -94,6 +102,7 @@ export function RechargeFormCard({
   paymentAmount,
   calculating,
   onPaymentMethodSelect,
+  onTopupSubmit,
   paymentLoading,
   redemptionCode,
   onRedemptionCodeChange,
@@ -477,6 +486,19 @@ export function RechargeFormCard({
                     </div>
                   </div>
                 )}
+
+              {onTopupSubmit ? (
+                <Button
+                  variant='default'
+                  size='lg'
+                  onClick={onTopupSubmit}
+                  disabled={topupAmount < minTopup || !!paymentLoading}
+                  className='mt-1 w-full gap-2'
+                >
+                  <Plus className='h-4 w-4' />
+                  {t('Add Funds')}
+                </Button>
+              ) : null}
             </>
           )}
         </div>

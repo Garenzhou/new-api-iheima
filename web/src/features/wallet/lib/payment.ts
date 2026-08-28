@@ -168,6 +168,24 @@ export function getDefaultPaymentType(topupInfo: TopupInfo | null): string {
 }
 
 /**
+ * Get a default PaymentMethod object from topup info. Reuses the matching
+ * entry from pay_methods when available (for its display name), otherwise
+ * builds a minimal method from the default payment type.
+ */
+export function getDefaultPaymentMethod(
+  topupInfo: TopupInfo | null
+): PaymentMethod | undefined {
+  const type = getDefaultPaymentType(topupInfo)
+  const matched = topupInfo?.pay_methods?.find(
+    (method) => method.type === type
+  )
+  if (matched) {
+    return matched
+  }
+  return type ? { name: type, type } : undefined
+}
+
+/**
  * Get minimum topup amount from topup info
  */
 export function getMinTopupAmount(topupInfo: TopupInfo | null): number {

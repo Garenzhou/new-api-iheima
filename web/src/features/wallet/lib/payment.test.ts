@@ -22,6 +22,7 @@ import { PAYMENT_TYPES } from '../constants'
 import {
   dispatchSelectedPayment,
   getDefaultPaymentType,
+  getDefaultPaymentMethod,
   getMinTopupAmount,
   isStripePayment,
   isWaffoPayment,
@@ -151,5 +152,37 @@ describe('topup info resolution', () => {
     } as never
 
     expect(getMinTopupAmount(topupInfo)).toBe(1)
+  })
+
+  test('reuses the matching pay_method for the default payment method', () => {
+    const topupInfo = {
+      enable_online_topup: true,
+      enable_epusdt_topup: true,
+      min_topup: 1,
+      stripe_min_topup: 1,
+      pay_methods: [
+        { name: 'USDT', type: PAYMENT_TYPES.EPUSDT },
+        { name: 'Alipay', type: PAYMENT_TYPES.ALIPAY },
+      ],
+    } as never
+
+    expect(getDefaultPaymentMethod(topupInfo)).toEqual({
+      name: 'USDT',
+      type: PAYMENT_TYPES.EPUSDT,
+    })
+  })
+
+  test('builds a minimal default payment method when not in pay_methods', () => {
+    const topupInfo = {
+      enable_online_topup: false,
+      enable_epusdt_topup: true,
+      min_topup: 1,
+      stripe_min_topup: 1,
+    } as never
+
+    expect(getDefaultPaymentMethod(topupInfo)).toEqual({
+      name: PAYMENT_TYPES.EPUSDT,
+      type: PAYMENT_TYPES.EPUSDT,
+    })
   })
 })

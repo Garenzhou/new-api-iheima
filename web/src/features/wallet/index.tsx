@@ -45,6 +45,7 @@ import {
 } from './hooks'
 import {
   getDefaultPaymentType,
+  getDefaultPaymentMethod,
   getMinTopupAmount,
   dispatchSelectedPayment,
 } from './lib'
@@ -193,6 +194,29 @@ export function Wallet(props: WalletProps) {
     }
   }
 
+  // Handle explicit topup submit button: use the selected payment method
+  // when available, otherwise fall back to the default one.
+  const handleTopupSubmit = async () => {
+    const method =
+      selectedPaymentMethod ??
+      getDefaultPaymentMethod(topupInfo)
+
+    if (!method) {
+      return
+    }
+
+    setSelectedPaymentMethod(method)
+    setSelectedWaffoMethodIndex(null)
+
+    const minTopup = getMinTopupAmount(topupInfo)
+    if (topupAmount < minTopup) {
+      return
+    }
+
+    await calculatePaymentAmount(topupAmount, method.type)
+    setConfirmDialogOpen(true)
+  }
+
   // Handle payment confirmation
   const handlePaymentConfirm = async () => {
     if (!selectedPaymentMethod) return
@@ -312,6 +336,7 @@ export function Wallet(props: WalletProps) {
                   paymentAmount={paymentAmount}
                   calculating={calculating}
                   onPaymentMethodSelect={handlePaymentMethodSelect}
+                  onTopupSubmit={handleTopupSubmit}
                   paymentLoading={paymentLoading}
                   redemptionCode={redemptionCode}
                   onRedemptionCodeChange={setRedemptionCode}
