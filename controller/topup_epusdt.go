@@ -35,16 +35,16 @@ type epusdtCreateResponse struct {
 	Code       int    `json:"code"`
 	Message    string `json:"message"`
 	Data       struct {
-		TradeID        string `json:"trade_id"`
-		OrderID        string `json:"order_id"`
-		Amount         string `json:"amount"`
-		Currency       string `json:"currency"`
-		ActualAmount   string `json:"actual_amount"`
-		ReceiveAddress string `json:"receive_address"`
-		Token          string `json:"token"`
-		Status         int    `json:"status"`
-		ExpirationTime int64  `json:"expiration_time"`
-		PaymentURL     string `json:"payment_url"`
+		TradeID        string  `json:"trade_id"`
+		OrderID        string  `json:"order_id"`
+		Amount         float64 `json:"amount"`
+		Currency       string  `json:"currency"`
+		ActualAmount   float64 `json:"actual_amount"`
+		ReceiveAddress string  `json:"receive_address"`
+		Token          string  `json:"token"`
+		Status         int     `json:"status"`
+		ExpirationTime int64   `json:"expiration_time"`
+		PaymentURL     string  `json:"payment_url"`
 	} `json:"data"`
 }
 

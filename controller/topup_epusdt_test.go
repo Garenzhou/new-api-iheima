@@ -4,6 +4,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/QuantumNous/new-api/common"
 	"github.com/QuantumNous/new-api/setting"
 	"github.com/stretchr/testify/assert"
 )
@@ -132,4 +133,18 @@ func TestEpusdtVerifyCallbackJSONRoundtrip(t *testing.T) {
 	sig := gmpaySign(params, "auth_token")
 	params["signature"] = sig
 	assert.True(t, gmpayVerify(params))
+}
+
+// TestEpusdtCreateResponseParsesNumericAmounts 验证 GMPay 下单响应中
+// amount/actual_amount 为 JSON 数字时能正确解析（不能是 string）。
+func TestEpusdtCreateResponseParsesNumericAmounts(t *testing.T) {
+	raw := `{"status_code":200,"message":"success","data":{"trade_id":"IBLPltp33e4mkRWgZPAPPfPj","order_id":"USDT2NOx","amount":7.3,"currency":"USD","actual_amount":7.31,"receive_address":"TX6UqCfLBgh4Q7QuSUqKAenqVzRbA9Qjhi","token":"USDT","status":1,"expiration_time":1787903057,"payment_url":"https://pay.atoken.tech/pay/checkout-counter/x"},"request_id":"abc"}`
+	var resp epusdtCreateResponse
+	err := common.Unmarshal([]byte(raw), &resp)
+	assert.NoError(t, err)
+	assert.Equal(t, 200, resp.StatusCode)
+	assert.Equal(t, 7.3, resp.Data.Amount)
+	assert.Equal(t, 7.31, resp.Data.ActualAmount)
+	assert.Equal(t, "IBLPltp33e4mkRWgZPAPPfPj", resp.Data.TradeID)
+	assert.NotEmpty(t, resp.Data.PaymentURL)
 }
