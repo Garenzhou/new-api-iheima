@@ -433,7 +433,7 @@ export function PaymentSettingsSection({
       EpusdtAddress: removeTrailingSlash(values.EpusdtAddress),
       EpusdtPid: values.EpusdtPid.trim(),
       EpusdtAuthToken: values.EpusdtAuthToken.trim(),
-      EpusdtTradeType: values.EpusdtTradeType.trim() || 'usdt.tron',
+      EpusdtTradeType: values.EpusdtTradeType.trim() || 'usdt.binance',
       EpusdtMinTopUp: values.EpusdtMinTopUp,
       Price: values.Price,
       MinTopUp: values.MinTopUp,
@@ -481,7 +481,7 @@ export function PaymentSettingsSection({
       EpusdtPid: initialRef.current.EpusdtPid.trim(),
       EpusdtAuthToken: initialRef.current.EpusdtAuthToken.trim(),
       EpusdtTradeType:
-        initialRef.current.EpusdtTradeType.trim() || 'usdt.tron',
+        initialRef.current.EpusdtTradeType.trim() || 'usdt.binance',
       EpusdtMinTopUp: initialRef.current.EpusdtMinTopUp,
       Price: initialRef.current.Price,
       MinTopUp: initialRef.current.MinTopUp,
@@ -1401,7 +1401,7 @@ export function PaymentSettingsSection({
                         <FormLabel>{t('Trade type')}</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder='usdt.tron'
+                            placeholder='usdt.binance'
                             {...field}
                             onChange={(event) =>
                               field.onChange(event.target.value)
@@ -1410,7 +1410,7 @@ export function PaymentSettingsSection({
                         </FormControl>
                         <FormDescription>
                           {t(
-                            'Settlement token and blockchain as token.network, for example usdt.tron or usdt.erc20'
+                            'Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron'
                           )}
                         </FormDescription>
                         <FormMessage />

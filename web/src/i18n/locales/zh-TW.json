@@ -4220,6 +4220,7 @@
     "Server logging is not enabled (log directory not configured)": "伺服器日誌功能未啟用（未設定日誌目錄）",
     "Server Token": "伺服器令牌",
     "Service account JSON file(s)": "服務賬號 JSON 檔案",
+    "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron": "結算代幣和區塊鏈，格式為 token.network，例如 usdt.binance（BSC）或 usdt.tron",
     "Session": "對話",
     "Session expired!": "對話已過期！",
     "Session expired?": "對話已過期？",

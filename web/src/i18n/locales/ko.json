@@ -4220,6 +4220,7 @@
     "Server logging is not enabled (log directory not configured)": "서버 로깅이 활성화되지 않았습니다 (로그 디렉터리가 구성되지 않음)",
     "Server Token": "서버 토큰",
     "Service account JSON file(s)": "서비스 계정 JSON 파일(들)",
+    "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron": "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron",
     "Session": "세션",
     "Session expired!": "세션이 만료되었습니다!",
     "Session expired?": "세션이 만료되었나요?",

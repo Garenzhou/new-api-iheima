@@ -140,7 +140,7 @@ const BILLING_SECTIONS = [
           EpusdtAddress: settings.EpusdtAddress ?? '',
           EpusdtPid: settings.EpusdtPid ?? '',
           EpusdtAuthToken: settings.EpusdtAuthToken ?? '',
-          EpusdtTradeType: settings.EpusdtTradeType ?? 'usdt.tron',
+          EpusdtTradeType: settings.EpusdtTradeType ?? 'usdt.binance',
           EpusdtMinTopUp: settings.EpusdtMinTopUp ?? 1,
           Price: settings.Price,
           MinTopUp: settings.MinTopUp,

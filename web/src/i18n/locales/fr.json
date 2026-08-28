@@ -4220,6 +4220,7 @@
     "Server logging is not enabled (log directory not configured)": "La journalisation serveur n'est pas activée (répertoire non configuré)",
     "Server Token": "Jeton de serveur",
     "Service account JSON file(s)": "Fichier(s) JSON de compte de service",
+    "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron": "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron",
     "Session": "Session",
     "Session expired!": "Session expirée !",
     "Session expired?": "Session expirée ?",

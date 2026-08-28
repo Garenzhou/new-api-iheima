@@ -65,7 +65,7 @@ const defaultBillingSettings: BillingSettings = {
   EpusdtAddress: '',
   EpusdtPid: '',
   EpusdtAuthToken: '',
-  EpusdtTradeType: 'usdt.tron',
+  EpusdtTradeType: 'usdt.binance',
   EpusdtMinTopUp: 1,
   Price: 7.3,
   MinTopUp: 1,

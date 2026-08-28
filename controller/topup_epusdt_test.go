@@ -104,10 +104,15 @@ func TestEpusdtTradeTypeSplit(t *testing.T) {
 	assert.Equal(t, "usdt", token)
 	assert.Equal(t, "tron", network)
 
-	setting.EpusdtTradeType = "USDT.ERC20"
+	setting.EpusdtTradeType = "usdt.bsc"
 	token, network = epusdtTradeTypeSplit()
 	assert.Equal(t, "usdt", token)
-	assert.Equal(t, "erc20", network)
+	assert.Equal(t, "binance", network)
+
+	setting.EpusdtTradeType = "USDT.BNB Chain"
+	token, network = epusdtTradeTypeSplit()
+	assert.Equal(t, "usdt", token)
+	assert.Equal(t, "bnb chain", network)
 
 	setting.EpusdtTradeType = ""
 	token, network = epusdtTradeTypeSplit()

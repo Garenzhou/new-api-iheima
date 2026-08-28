@@ -4220,6 +4220,7 @@
     "Server logging is not enabled (log directory not configured)": "サーバーログが有効になっていません（ログディレクトリが未設定）",
     "Server Token": "サーバートークン",
     "Service account JSON file(s)": "サービスアカウントJSONファイル",
+    "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron": "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron",
     "Session": "セッション",
     "Session expired!": "セッションが期限切れです！",
     "Session expired?": "セッションが期限切れになりましたか？",

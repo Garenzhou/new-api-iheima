@@ -4220,6 +4220,7 @@
     "Server logging is not enabled (log directory not configured)": "Nhật ký máy chủ chưa được bật (chưa cấu hình thư mục nhật ký)",
     "Server Token": "Mã thông báo máy chủ",
     "Service account JSON file(s)": "Tệp JSON tài khoản dịch vụ",
+    "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron": "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron",
     "Session": "Phiên",
     "Session expired!": "Phiên hết hạn!",
     "Session expired?": "Phiên đã hết hạn?",

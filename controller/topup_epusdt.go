@@ -108,6 +108,10 @@ func epusdtTradeTypeSplit() (token string, network string) {
 	if network == "" {
 		network = "tron"
 	}
+	// epusdt GMPay 协议用 binance 标识 BSC 链，把用户常见的 bsc 别名归一化
+	if network == "bsc" {
+		network = "binance"
+	}
 	return token, network
 }
 

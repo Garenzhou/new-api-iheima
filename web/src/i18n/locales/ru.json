@@ -4220,6 +4220,7 @@
     "Server logging is not enabled (log directory not configured)": "Журналирование сервера не включено (каталог журналов не настроен)",
     "Server Token": "Токен сервера",
     "Service account JSON file(s)": "JSON-файл сервисного аккаунта",
+    "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron": "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron",
     "Session": "Сессия",
     "Session expired!": "Сессия истекла!",
     "Session expired?": "Сессия истекла?",

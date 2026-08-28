@@ -4220,6 +4220,7 @@
     "Server logging is not enabled (log directory not configured)": "لا يتم تمكين تسجيل الخادم (دليل السجل غير مكون)",
     "Server Token": "رمز الخادم",
     "Service account JSON file(s)": "ملف (ملفات) JSON لحساب الخدمة",
+    "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron": "Settlement token and blockchain as token.network, for example usdt.binance (BSC) or usdt.tron",
     "Session": "الجلسة",
     "Session expired!": "انتهت الجلسة!",
     "Session expired?": "هل انتهت الجلسة؟",
