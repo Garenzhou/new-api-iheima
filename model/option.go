@@ -81,6 +81,7 @@ func InitOptionMap() {
 	common.OptionMap["EpayId"] = ""
 	common.OptionMap["EpayKey"] = ""
 	common.OptionMap["EpusdtAddress"] = setting.EpusdtAddress
+	common.OptionMap["EpusdtPid"] = setting.EpusdtPid
 	common.OptionMap["EpusdtAuthToken"] = setting.EpusdtAuthToken
 	common.OptionMap["EpusdtTradeType"] = setting.EpusdtTradeType
 	common.OptionMap["EpusdtMinTopUp"] = strconv.Itoa(setting.EpusdtMinTopUp)
@@ -434,6 +435,8 @@ func updateOptionMap(key string, value string) (err error) {
 		operation_setting.EpayKey = value
 	case "EpusdtAddress":
 		setting.EpusdtAddress = value
+	case "EpusdtPid":
+		setting.EpusdtPid = value
 	case "EpusdtAuthToken":
 		setting.EpusdtAuthToken = value
 	case "EpusdtTradeType":

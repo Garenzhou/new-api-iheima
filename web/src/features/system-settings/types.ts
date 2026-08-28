@@ -289,6 +289,7 @@ export type BillingSettings = {
   EpayId: string
   EpayKey: string
   EpusdtAddress: string
+  EpusdtPid: string
   EpusdtAuthToken: string
   EpusdtTradeType: string
   EpusdtMinTopUp: number

@@ -108,6 +108,7 @@ const paymentSchema = z.object({
     return /^https?:\/\//.test(trimmed)
   }, 'Provide a valid gateway URL starting with http:// or https://'),
   EpusdtAuthToken: z.string(),
+  EpusdtPid: z.string(),
   EpusdtTradeType: z.string(),
   EpusdtMinTopUp: z.coerce.number().min(1),
   Price: z.coerce.number().min(0),
@@ -430,8 +431,9 @@ export function PaymentSettingsSection({
       EpayId: values.EpayId.trim(),
       EpayKey: values.EpayKey.trim(),
       EpusdtAddress: removeTrailingSlash(values.EpusdtAddress),
+      EpusdtPid: values.EpusdtPid.trim(),
       EpusdtAuthToken: values.EpusdtAuthToken.trim(),
-      EpusdtTradeType: values.EpusdtTradeType.trim() || 'usdt.trc20',
+      EpusdtTradeType: values.EpusdtTradeType.trim() || 'usdt.tron',
       EpusdtMinTopUp: values.EpusdtMinTopUp,
       Price: values.Price,
       MinTopUp: values.MinTopUp,
@@ -476,9 +478,10 @@ export function PaymentSettingsSection({
       EpayId: initialRef.current.EpayId.trim(),
       EpayKey: initialRef.current.EpayKey.trim(),
       EpusdtAddress: removeTrailingSlash(initialRef.current.EpusdtAddress),
+      EpusdtPid: initialRef.current.EpusdtPid.trim(),
       EpusdtAuthToken: initialRef.current.EpusdtAuthToken.trim(),
       EpusdtTradeType:
-        initialRef.current.EpusdtTradeType.trim() || 'usdt.trc20',
+        initialRef.current.EpusdtTradeType.trim() || 'usdt.tron',
       EpusdtMinTopUp: initialRef.current.EpusdtMinTopUp,
       Price: initialRef.current.Price,
       MinTopUp: initialRef.current.MinTopUp,
@@ -539,6 +542,10 @@ export function PaymentSettingsSection({
 
     if (sanitized.EpusdtAddress !== initial.EpusdtAddress) {
       updates.push({ key: 'EpusdtAddress', value: sanitized.EpusdtAddress })
+    }
+
+    if (sanitized.EpusdtPid && sanitized.EpusdtPid !== initial.EpusdtPid) {
+      updates.push({ key: 'EpusdtPid', value: sanitized.EpusdtPid })
     }
 
     if (
@@ -1340,6 +1347,29 @@ export function PaymentSettingsSection({
 
                   <FormField
                     control={form.control}
+                    name='EpusdtPid'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('Epusdt merchant PID')}</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder='1000'
+                            {...field}
+                            onChange={(event) =>
+                              field.onChange(event.target.value)
+                            }
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          {t('Merchant PID from your Epusdt gateway (api key pid)')}
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
                     name='EpusdtAuthToken'
                     render={({ field }) => (
                       <FormItem>
@@ -1371,7 +1401,7 @@ export function PaymentSettingsSection({
                         <FormLabel>{t('Trade type')}</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder='usdt.trc20'
+                            placeholder='usdt.tron'
                             {...field}
                             onChange={(event) =>
                               field.onChange(event.target.value)
@@ -1380,7 +1410,7 @@ export function PaymentSettingsSection({
                         </FormControl>
                         <FormDescription>
                           {t(
-                            'Blockchain used for settlement, for example usdt.trc20 or usdt.erc20'
+                            'Settlement token and blockchain as token.network, for example usdt.tron or usdt.erc20'
                           )}
                         </FormDescription>
                         <FormMessage />

@@ -171,13 +171,16 @@ func TestEpayWebhookEnabledRequiresTopUpAndWebhookConfig(t *testing.T) {
 func TestEpusdtWebhookEnabledRequiresConfig(t *testing.T) {
 	confirmPaymentComplianceForTest(t)
 	originalAddress := setting.EpusdtAddress
+	originalPid := setting.EpusdtPid
 	originalToken := setting.EpusdtAuthToken
 	t.Cleanup(func() {
 		setting.EpusdtAddress = originalAddress
+		setting.EpusdtPid = originalPid
 		setting.EpusdtAuthToken = originalToken
 	})
 
 	setting.EpusdtAddress = ""
+	setting.EpusdtPid = ""
 	setting.EpusdtAuthToken = ""
 	require.False(t, isEpusdtWebhookEnabled())
 
@@ -186,6 +189,7 @@ func TestEpusdtWebhookEnabledRequiresConfig(t *testing.T) {
 	t.Cleanup(func() { paymentSetting.ComplianceConfirmed = originalConfirmed })
 	paymentSetting.ComplianceConfirmed = false
 	setting.EpusdtAddress = "https://pay.example.com"
+	setting.EpusdtPid = "1000"
 	setting.EpusdtAuthToken = "epusdt_token"
 	require.False(t, isEpusdtWebhookEnabled())
 
@@ -197,5 +201,9 @@ func TestEpusdtWebhookEnabledRequiresConfig(t *testing.T) {
 	require.True(t, isEpusdtWebhookEnabled())
 
 	setting.EpusdtAuthToken = ""
+	require.False(t, isEpusdtWebhookEnabled())
+
+	setting.EpusdtAuthToken = "epusdt_token"
+	setting.EpusdtPid = ""
 	require.False(t, isEpusdtWebhookEnabled())
 }

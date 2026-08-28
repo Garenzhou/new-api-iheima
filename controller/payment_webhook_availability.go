@@ -118,6 +118,7 @@ func isEpusdtTopUpEnabled() bool {
 
 func isEpusdtWebhookConfigured() bool {
 	return strings.TrimSpace(setting.EpusdtAddress) != "" &&
+		strings.TrimSpace(setting.EpusdtPid) != "" &&
 		strings.TrimSpace(setting.EpusdtAuthToken) != ""
 }
 

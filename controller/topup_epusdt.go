@@ -2,7 +2,8 @@ package controller
 
 import (
 	"bytes"
-	"crypto/md5"
+	"crypto/hmac"
+	"crypto/sha256"
 	"encoding/hex"
 	"errors"
 	"fmt"
@@ -10,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -24,29 +26,32 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-// epusdtPaidStatus 表示网关回调中“已支付”状态（epusdt 协议 status=2）。
+// epusdtPaidStatus 表示网关回调中“已支付”状态（GMPay 协议 status=2）。
 const epusdtPaidStatus = "2"
 
-// epusdtCreateResponse 兼容 epusdt（assimon/epusdt）与 bepusdt 两种响应格式：
-// 前者返回 {"status_code":200,"data":{...}}，后者返回 {"code":200,"data":{...}}。
+// epusdtCreateResponse 解析 GMPay 下单响应：{"status_code":200,"message":"success","data":{...},"request_id":...}。
 type epusdtCreateResponse struct {
-	Code       int    `json:"code"`
 	StatusCode int    `json:"status_code"`
+	Code       int    `json:"code"`
 	Message    string `json:"message"`
 	Data       struct {
-		TradeID      string `json:"trade_id"`
-		OrderID      string `json:"order_id"`
-		Amount       string `json:"amount"`
-		ActualAmount string `json:"actual_amount"`
-		Token        string `json:"token"`
-		PaymentURL   string `json:"payment_url"`
+		TradeID        string `json:"trade_id"`
+		OrderID        string `json:"order_id"`
+		Amount         string `json:"amount"`
+		Currency       string `json:"currency"`
+		ActualAmount   string `json:"actual_amount"`
+		ReceiveAddress string `json:"receive_address"`
+		Token          string `json:"token"`
+		Status         int    `json:"status"`
+		ExpirationTime int64  `json:"expiration_time"`
+		PaymentURL     string `json:"payment_url"`
 	} `json:"data"`
 }
 
-// epusdtSign 按 epusdt 协议计算签名：
+// gmpaySign 按 GMPay 协议计算签名：
 // 排除 signature 与空值后，按参数名字典序拼接 "key=value"，以 "&" 连接，
-// 末尾直接拼接 auth token，取 MD5 小写十六进制。
-func epusdtSign(params map[string]string, token string) string {
+// 使用 secret_key 作为 HMAC 密钥，取 HMAC-SHA256 小写十六进制。
+func gmpaySign(params map[string]string, secretKey string) string {
 	keys := make([]string, 0, len(params))
 	for key := range params {
 		if key == "signature" || params[key] == "" {
@@ -60,17 +65,18 @@ func epusdtSign(params map[string]string, token string) string {
 	for _, key := range keys {
 		pairs = append(pairs, key+"="+params[key])
 	}
-	sum := md5.Sum([]byte(strings.Join(pairs, "&") + token))
-	return hex.EncodeToString(sum[:])
+	mac := hmac.New(sha256.New, []byte(secretKey))
+	_, _ = mac.Write([]byte(strings.Join(pairs, "&")))
+	return hex.EncodeToString(mac.Sum(nil))
 }
 
-func epusdtVerify(params map[string]string) bool {
+func gmpayVerify(params map[string]string) bool {
 	token := setting.EpusdtAuthToken
 	signature := params["signature"]
 	if signature == "" || token == "" {
 		return false
 	}
-	expected := epusdtSign(params, token)
+	expected := gmpaySign(params, token)
 	return strings.EqualFold(signature, expected)
 }
 
@@ -79,7 +85,30 @@ func epusdtGatewayAddress() string {
 }
 
 func isEpusdtConfigured() bool {
-	return epusdtGatewayAddress() != "" && strings.TrimSpace(setting.EpusdtAuthToken) != ""
+	return epusdtGatewayAddress() != "" &&
+		strings.TrimSpace(setting.EpusdtPid) != "" &&
+		strings.TrimSpace(setting.EpusdtAuthToken) != ""
+}
+
+// epusdtTradeTypeSplit 将 "usdt.tron" 拆为 token=usdt、network=tron。
+// 非 "token.network" 格式时回退默认 usdt.tron。
+func epusdtTradeTypeSplit() (token string, network string) {
+	raw := strings.TrimSpace(setting.EpusdtTradeType)
+	if raw == "" {
+		raw = "usdt.tron"
+	}
+	parts := strings.SplitN(raw, ".", 2)
+	token = strings.ToLower(strings.TrimSpace(parts[0]))
+	if len(parts) == 2 {
+		network = strings.ToLower(strings.TrimSpace(parts[1]))
+	}
+	if token == "" {
+		token = "usdt"
+	}
+	if network == "" {
+		network = "tron"
+	}
+	return token, network
 }
 
 func RequestEpusdt(c *gin.Context) {
@@ -155,18 +184,41 @@ func RequestEpusdt(c *gin.Context) {
 		}
 	}
 
-	amount := decimal.NewFromFloat(payMoney).Round(2).StringFixed(2)
-	params := map[string]string{
-		"trade_type":   setting.EpusdtTradeType,
+	token, network := epusdtTradeTypeSplit()
+	// 网关按 JSON 数字解析 amount；签名时按 Go 的 strconv.FormatFloat(f,'f',-1,64)
+	// 规范化成字符串（与网关 util/sign.MapToParams 一致），例如 10.00 -> "10"。
+	amount := decimal.NewFromFloat(payMoney).Round(2)
+	amountFloat, _ := amount.Float64()
+	amountSignStr := strconv.FormatFloat(amountFloat, 'f', -1, 64)
+
+	signParams := map[string]string{
+		"pid":          setting.EpusdtPid,
 		"order_id":     tradeNo,
-		"amount":       amount,
+		"currency":     "usd",
+		"token":        token,
+		"network":      network,
+		"amount":       amountSignStr,
 		"notify_url":   notifyUrl.String(),
 		"redirect_url": redirectUrl.String(),
+		"name":         "USDT topup",
 	}
-	params["signature"] = epusdtSign(params, setting.EpusdtAuthToken)
+	signature := gmpaySign(signParams, setting.EpusdtAuthToken)
 
-	gateway := epusdtGatewayAddress() + "/api/v1/order/create-transaction"
-	body, err := postEpusdtCreateTransaction(c, gateway, params)
+	payload := map[string]interface{}{
+		"pid":          setting.EpusdtPid,
+		"order_id":     tradeNo,
+		"currency":     "usd",
+		"token":        token,
+		"network":      network,
+		"amount":       amountFloat,
+		"notify_url":   notifyUrl.String(),
+		"redirect_url": redirectUrl.String(),
+		"name":         "USDT topup",
+		"signature":    signature,
+	}
+
+	gateway := epusdtGatewayAddress() + "/payments/gmpay/v1/order/create-transaction"
+	body, err := postEpusdtCreateTransaction(c, gateway, payload)
 	if err != nil {
 		logger.LogError(c.Request.Context(), fmt.Sprintf("epusdt 拉起支付失败 user_id=%d trade_no=%s amount=%d error=%q body=%q", id, tradeNo, req.Amount, err.Error(), string(body)))
 		expireLocalOrder("gateway request failed")
@@ -180,7 +232,7 @@ func RequestEpusdt(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "error", "data": "拉起支付失败"})
 		return
 	}
-	success := createResp.Code == http.StatusOK || createResp.StatusCode == http.StatusOK
+	success := createResp.StatusCode == http.StatusOK || createResp.Code == http.StatusOK
 	if !success || createResp.Data.PaymentURL == "" {
 		logger.LogError(c.Request.Context(), fmt.Sprintf("epusdt 下单失败 user_id=%d trade_no=%s status_code=%d code=%d message=%q body=%q", id, tradeNo, createResp.StatusCode, createResp.Code, createResp.Message, string(body)))
 		expireLocalOrder("gateway rejected order")
@@ -195,14 +247,13 @@ func RequestEpusdt(c *gin.Context) {
 	}, "url": createResp.Data.PaymentURL})
 }
 
-// postEpusdtCreateTransaction 以 JSON body 调用网关下单接口
-// （epusdt/bepusdt 的 create-transaction 均按 JSON 绑定参数）。
-func postEpusdtCreateTransaction(c *gin.Context, gateway string, params map[string]string) ([]byte, error) {
-	payload, err := common.Marshal(params)
+// postEpusdtCreateTransaction 以 JSON body 调用网关下单接口（GMPay 按 JSON 绑定参数）。
+func postEpusdtCreateTransaction(c *gin.Context, gateway string, payload map[string]interface{}) ([]byte, error) {
+	body, err := common.Marshal(payload)
 	if err != nil {
 		return nil, err
 	}
-	req, err := http.NewRequestWithContext(c.Request.Context(), http.MethodPost, gateway, bytes.NewReader(payload))
+	req, err := http.NewRequestWithContext(c.Request.Context(), http.MethodPost, gateway, bytes.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
@@ -215,6 +266,36 @@ func postEpusdtCreateTransaction(c *gin.Context, gateway string, params map[stri
 	return io.ReadAll(io.LimitReader(resp.Body, 64*1024))
 }
 
+// parseGmpayCallbackBody 将 GMPay 回调 JSON body 解析为 string map，
+// JSON 数字按 Go 的 strconv.FormatFloat(f,'f',-1,64) 规范化成字符串，
+// 与网关签名算法 util/sign.MapToParams 保持一致，保证验签通过。
+func parseGmpayCallbackBody(body []byte) (map[string]string, error) {
+	var raw map[string]interface{}
+	if err := common.Unmarshal(body, &raw); err != nil {
+		return nil, err
+	}
+	out := make(map[string]string, len(raw))
+	for key, value := range raw {
+		out[key] = gmpayStringifyValue(value)
+	}
+	return out, nil
+}
+
+// gmpayStringifyValue 将回调中的 JSON 值转成签名用字符串：
+// float64 -> strconv.FormatFloat(f,'f',-1,64)；其余直接 fmt.Sprintf。
+func gmpayStringifyValue(value interface{}) string {
+	switch v := value.(type) {
+	case float64:
+		return strconv.FormatFloat(v, 'f', -1, 64)
+	case float32:
+		return strconv.FormatFloat(float64(v), 'f', -1, 64)
+	case string:
+		return v
+	default:
+		return fmt.Sprintf("%v", v)
+	}
+}
+
 func EpusdtNotify(c *gin.Context) {
 	if !isEpusdtWebhookEnabled() {
 		logger.LogWarn(c.Request.Context(), fmt.Sprintf("epusdt webhook 被拒绝 reason=webhook_disabled path=%q client_ip=%s", c.Request.RequestURI, c.ClientIP()))
@@ -223,12 +304,13 @@ func EpusdtNotify(c *gin.Context) {
 	}
 
 	// 网关以 POST + JSON body 发送支付回调（GET query 仅作兼容兜底）。
+	// 回调里 amount/actual_amount 等是 JSON 数字，需按 Go 的 float 格式化
+	// 转成字符串（与网关 util/sign.MapToParams 一致），否则无法正确验签。
 	params := make(map[string]string, len(c.Request.URL.Query()))
 	for key := range c.Request.URL.Query() {
 		params[key] = c.Request.URL.Query().Get(key)
 	}
 	if c.Request.Method == http.MethodPost {
-		var bodyParams map[string]string
 		body, err := io.ReadAll(io.LimitReader(c.Request.Body, 64*1024))
 		if err != nil {
 			logger.LogWarn(c.Request.Context(), fmt.Sprintf("epusdt webhook 读取请求体失败 path=%q client_ip=%s error=%q", c.Request.RequestURI, c.ClientIP(), err.Error()))
@@ -236,7 +318,8 @@ func EpusdtNotify(c *gin.Context) {
 			return
 		}
 		if len(body) > 0 {
-			if err = common.Unmarshal(body, &bodyParams); err != nil {
+			bodyParams, err := parseGmpayCallbackBody(body)
+			if err != nil {
 				logger.LogWarn(c.Request.Context(), fmt.Sprintf("epusdt webhook 解析请求体失败 path=%q client_ip=%s body=%q error=%q", c.Request.RequestURI, c.ClientIP(), string(body), err.Error()))
 				_, _ = c.Writer.Write([]byte("fail"))
 				return
@@ -259,7 +342,7 @@ func EpusdtNotify(c *gin.Context) {
 		_, _ = c.Writer.Write([]byte("ok"))
 		return
 	}
-	if !epusdtVerify(params) {
+	if !gmpayVerify(params) {
 		logger.LogWarn(c.Request.Context(), fmt.Sprintf("epusdt webhook 验签失败 trade_no=%s client_ip=%s params=%q", tradeNo, c.ClientIP(), common.GetJsonString(params)))
 		_, _ = c.Writer.Write([]byte("fail"))
 		return
