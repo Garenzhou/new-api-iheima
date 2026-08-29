@@ -25,3 +25,7 @@ dist-ssr
 *.sln
 *.sw?
 .tanstack/*
+
+# Local dev: mock backend and design reference screenshots
+mock-backend.mjs
+design-refs/

@@ -17,4 +17,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 export { Hero } from './hero'
-export { PromoBanner } from './promo-banner'
+export { HeroPill } from './hero-pill'
+export { HeroTitle } from './hero-title'
+export { HeroCtas } from './hero-ctas'
+export { HeroEndpoint } from './hero-endpoint'
+export { RoutingDiagram } from './routing-diagram'
