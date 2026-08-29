@@ -144,6 +144,19 @@ export function PublicHeader(props: PublicHeaderProps) {
   const useFallback = !useDynamic && navLinks.length === 0
   const activeDynamicLinks = useDynamic ? dynamicLinks : navLinks
 
+  // The Console link is rendered as a separate right-side entry (openstarry
+  // visual: outlined button as the first item in the right cluster), not
+  // as a center nav link. We split by href so the same link coming from
+  // the backend (HeaderNavModules.console) or the static fallback can be
+  // lifted without changing its source.
+  const CONSOLE_HREF = '/dashboard'
+  const consoleLink = activeDynamicLinks.find(
+    (link) => link.href === CONSOLE_HREF
+  )
+  const centerLinks = activeDynamicLinks.filter(
+    (link) => link.href !== CONSOLE_HREF
+  )
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
     onScroll()
@@ -290,6 +303,49 @@ export function PublicHeader(props: PublicHeaderProps) {
     )
   }
 
+  // Right-side Console entry. The link is always rendered when the backend
+  // exposes it, regardless of auth state — the dashboard route itself
+  // redirects unauthenticated visitors to /sign-in.
+  const renderConsoleButton = (link: TopNavLink) => {
+    if (link.external) {
+      return (
+        <a
+          key={`c-${link.href}`}
+          href={link.href}
+          target='_blank'
+          rel='noopener noreferrer'
+          aria-disabled={link.disabled}
+          tabIndex={link.disabled ? -1 : undefined}
+          onClick={(event) => handleNavLinkClick(event, link)}
+          className={cn(
+            'inline-flex h-8 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 text-[13px] font-medium text-slate-700 transition-colors duration-150',
+            'hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900',
+            'dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-50',
+            link.disabled && 'pointer-events-none opacity-50'
+          )}
+        >
+          {t(link.title)}
+        </a>
+      )
+    }
+    return (
+      <Link
+        key={`c-${link.href}`}
+        to={link.href}
+        disabled={link.disabled}
+        onClick={(event) => handleNavLinkClick(event, link)}
+        className={cn(
+          'inline-flex h-8 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 text-[13px] font-medium text-slate-700 transition-colors duration-150',
+          'hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900',
+          'dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-50',
+          link.disabled && 'pointer-events-none opacity-50'
+        )}
+      >
+        {t(link.title)}
+      </Link>
+    )
+  }
+
   const renderFallbackLink = (link: NavLinkSpec) => {
     if (link.dropdown) {
       return (
@@ -362,7 +418,7 @@ export function PublicHeader(props: PublicHeaderProps) {
     }
     return (
       <ul className='hidden flex-1 items-center md:flex'>
-        {activeDynamicLinks.map(renderDynamicLink)}
+        {centerLinks.map(renderDynamicLink)}
       </ul>
     )
   }
@@ -409,6 +465,14 @@ export function PublicHeader(props: PublicHeaderProps) {
         {/* Right side */}
         <div className='ml-auto flex shrink-0 items-center gap-1'>
           {props.rightContent}
+          {/* Console entry: openstarry-style outlined button as the first
+              item in the right cluster. Only shown on desktop — on mobile
+              the link lives inside the hamburger menu. */}
+          {consoleLink && (
+            <div className='hidden md:inline-flex'>
+              {renderConsoleButton(consoleLink)}
+            </div>
+          )}
           {showLanguageSwitcher && <NavLanguageSwitcher />}
           {showThemeSwitch && <ThemeSwitch />}
           {showNotifications && (
@@ -511,7 +575,8 @@ export function PublicHeader(props: PublicHeaderProps) {
                     )}
                   </li>
                 ))
-              : activeDynamicLinks.map((link) => {
+              : [...centerLinks, ...(consoleLink ? [consoleLink] : [])].map(
+                  (link) => {
                   const isActive = pathname === link.href
                   const linkClassName = cn(
                     'block rounded-md px-4 py-3 text-[15px] transition-colors',
@@ -551,7 +616,8 @@ export function PublicHeader(props: PublicHeaderProps) {
                       </Link>
                     </li>
                   )
-                })}
+                  }
+                )}
           </ul>
         </div>
       )}
