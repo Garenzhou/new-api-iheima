@@ -78,7 +78,7 @@ export function Hero() {
 
         <div
           className='tr-hero-part w-full pt-6 md:pt-12'
-          style={{ ['--hero-delay' as string]: '600ms' }}
+          style={{ '--hero-delay': '600ms' }}
         >
           <RoutingDiagram />
         </div>

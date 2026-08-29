@@ -38,7 +38,7 @@ export function HeroCtas({ className }: HeroCtasProps) {
       <Button
         size='lg'
         className='tr-cta-primary tr-hero-part h-12 w-full rounded-lg bg-neutral-900 px-5 text-sm font-semibold text-white shadow-[0_4px_14px_rgba(20,17,15,0.18)] hover:bg-neutral-800 sm:w-auto'
-        style={{ ['--hero-delay' as string]: '360ms' }}
+        style={{ '--hero-delay': '360ms' }}
       >
         <KeyRound className='mr-2 size-4' />
         {t('Get API key')}
@@ -46,7 +46,7 @@ export function HeroCtas({ className }: HeroCtasProps) {
 
       <div
         className='tr-hero-part relative w-full pt-2 sm:w-auto sm:pt-0'
-        style={{ ['--hero-delay' as string]: '420ms' }}
+        style={{ '--hero-delay': '420ms' }}
       >
         <Button
           size='lg'

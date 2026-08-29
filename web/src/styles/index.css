@@ -967,6 +967,36 @@ For commercial licensing, please contact support@quantumnous.com
   animation-delay: var(--hero-delay, 0s);
 }
 
+/* Per-character reveal: matches the reference home-hero-char spec —
+ * inline-block, start with a small lift, slight scale-down, and a 6px
+ * blur. Each <span> sets its own --char-delay so the title types
+ * itself out char-by-char. */
+.tr-hero-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.26em) scale(0.985);
+  filter: blur(6px);
+  animation: tr-hero-title-in 0.62s var(--tr-easing) forwards;
+  animation-delay: var(--char-delay, 0s);
+  will-change: transform, opacity, filter;
+}
+
+/* Fade-out applied to all chars in a leaving segment at once (no
+ * stagger), so a phrase exits cleanly before being swapped for the
+ * next one. Mirrors the reference home-hero-title-out timing. */
+.tr-hero-char-leaving {
+  animation: tr-hero-title-out 0.24s ease-in both;
+  animation-delay: 0s;
+}
+
+@keyframes tr-hero-title-out {
+  to {
+    opacity: 0;
+    transform: translateY(-0.28em);
+    filter: blur(2px);
+  }
+}
+
 .tr-pill {
   border: 1px solid transparent;
   background:
@@ -1057,6 +1087,8 @@ For commercial licensing, please contact support@quantumnous.com
 
 @media (prefers-reduced-motion: reduce) {
   .tr-hero-part,
+  .tr-hero-char,
+  .tr-hero-char-leaving,
   .tr-pill-dot,
   .tr-hub,
   .tr-hub-ring,
@@ -1064,10 +1096,17 @@ For commercial licensing, please contact support@quantumnous.com
   .tr-copy-check {
     animation: none;
   }
-  .tr-hero-part {
+  .tr-hero-part,
+  .tr-hero-char {
     opacity: 1;
     transform: none;
     filter: none;
+  }
+  /* Leaving chars under reduced-motion skip the out animation but
+   * still need to be invisible so the next phrase can mount without
+   * a flash. */
+  .tr-hero-char-leaving {
+    opacity: 0;
   }
   .tr-cta-primary,
   .tr-cta-secondary,

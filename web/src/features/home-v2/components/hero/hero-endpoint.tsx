@@ -65,7 +65,7 @@ export function HeroEndpoint({ className }: HeroEndpointProps) {
         'tr-endpoint tr-hero-part flex w-full max-w-xl items-stretch overflow-hidden rounded-lg border border-black/10 bg-white/80 backdrop-blur-sm',
         className
       )}
-      style={{ ['--hero-delay' as string]: '500ms' }}
+      style={{ '--hero-delay': '500ms' }}
     >
       <div className='relative flex shrink-0 items-center border-r border-black/10'>
         <select
