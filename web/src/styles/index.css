@@ -523,6 +523,19 @@ For commercial licensing, please contact support@quantumnous.com
   }
 }
 
+/* ── Promo banner gradient slide (home-v2) ──
+   Mirrors openstarry's @keyframes promoBg. Slides the 200% wide gradient
+   back and forth so the colors gently shift over time. */
+@keyframes promo-bg {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
 .landing-animate-fade-up {
   animation: landing-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
