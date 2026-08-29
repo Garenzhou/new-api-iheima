@@ -307,6 +307,27 @@ export function PublicHeader(props: PublicHeaderProps) {
   // exposes it, regardless of auth state — the dashboard route itself
   // redirects unauthenticated visitors to /sign-in.
   const renderConsoleButton = (link: TopNavLink) => {
+    const inner = (
+      <>
+        <span className='public-header-console-dot' aria-hidden />
+        <span>{t(link.title)}</span>
+        <svg
+          className='public-header-console-arrow'
+          width='12'
+          height='12'
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke='currentColor'
+          strokeWidth='2.4'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          aria-hidden
+        >
+          <line x1='5' y1='12' x2='19' y2='12' />
+          <polyline points='12 5 19 12 12 19' />
+        </svg>
+      </>
+    )
     if (link.external) {
       return (
         <a
@@ -317,14 +338,9 @@ export function PublicHeader(props: PublicHeaderProps) {
           aria-disabled={link.disabled}
           tabIndex={link.disabled ? -1 : undefined}
           onClick={(event) => handleNavLinkClick(event, link)}
-          className={cn(
-            'inline-flex h-8 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 text-[13px] font-medium text-slate-700 transition-colors duration-150',
-            'hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900',
-            'dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-50',
-            link.disabled && 'pointer-events-none opacity-50'
-          )}
+          className='public-header-console'
         >
-          {t(link.title)}
+          {inner}
         </a>
       )
     }
@@ -333,15 +349,11 @@ export function PublicHeader(props: PublicHeaderProps) {
         key={`c-${link.href}`}
         to={link.href}
         disabled={link.disabled}
+        aria-disabled={link.disabled}
         onClick={(event) => handleNavLinkClick(event, link)}
-        className={cn(
-          'inline-flex h-8 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 text-[13px] font-medium text-slate-700 transition-colors duration-150',
-          'hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900',
-          'dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-50',
-          link.disabled && 'pointer-events-none opacity-50'
-        )}
+        className='public-header-console'
       >
-        {t(link.title)}
+        {inner}
       </Link>
     )
   }

@@ -740,3 +740,116 @@ For commercial licensing, please contact support@quantumnous.com
     display: none;
   }
 }
+
+/* ── Public-header Console button (mirrors openstarry .nav-console) ──
+   Indigo-tinted capsule with a 5px status dot, pulse halo and a hover
+   state that fills the pill and slides the arrow. The status dot also
+   breathes softly to signal "ready / online". */
+@keyframes public-header-console-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(99, 102, 241, 0),
+      0 0 0 1px rgba(99, 102, 241, 0.18);
+  }
+  50% {
+    box-shadow:
+      0 0 0 4px rgba(99, 102, 241, 0),
+      0 0 14px 0 rgba(99, 102, 241, 0.35);
+  }
+}
+
+@keyframes public-header-console-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.public-header-console {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family:
+    ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+  color: rgb(67 56 202); /* indigo-700 */
+  text-decoration: none;
+  padding: 5px 12px 5px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  background: rgba(99, 102, 241, 0.08);
+  box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  transition:
+    background 0.2s,
+    color 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
+  animation: public-header-console-pulse 2.6s ease-in-out infinite;
+}
+
+.public-header-console:hover {
+  background: rgb(99 102 241); /* indigo-500 */
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+}
+
+.public-header-console-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgb(99 102 241); /* indigo-500 */
+  animation: public-header-console-dot 2.5s ease-in-out infinite;
+}
+
+.public-header-console:hover .public-header-console-dot {
+  background: #fff;
+}
+
+.public-header-console-arrow {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.public-header-console:hover .public-header-console-arrow {
+  transform: translateX(3px);
+}
+
+.public-header-console[aria-disabled='true'],
+.public-header-console[aria-disabled='true']:hover {
+  pointer-events: none;
+  opacity: 0.5;
+  transform: none;
+  background: rgba(99, 102, 241, 0.08);
+  color: rgb(67 56 202);
+}
+
+.dark .public-header-console {
+  color: rgb(165 180 252); /* indigo-300 */
+  border-color: rgba(129, 140, 248, 0.4);
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.dark .public-header-console:hover {
+  background: rgb(99 102 241);
+  color: #fff;
+}
+
+.dark .public-header-console-dot {
+  background: rgb(129 140 248); /* indigo-400 */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-header-console,
+  .public-header-console-dot,
+  .public-header-console-arrow {
+    animation: none;
+    transition: none;
+  }
+}
