@@ -29,15 +29,14 @@ export function HeroPill({ className }: HeroPillProps) {
   return (
     <div
       className={cn(
-        'inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-3.5 py-1.5 text-[13px] text-neutral-700 shadow-[0_1px_2px_rgba(15,15,15,0.04)] backdrop-blur-sm',
+        'tr-pill tr-hero-part inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[13px] text-neutral-800',
         className
       )}
     >
-      <span
-        aria-hidden
-        className='inline-block size-1.5 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.18)]'
-      />
-      <span className='font-medium'>{t('40+ Official Models · up to 90% off')}</span>
+      <span aria-hidden className='tr-pill-dot inline-block size-1.5 rounded-full' />
+      <span className='font-medium tracking-tight'>
+        {t('40+ Official Models · up to 90% off')}
+      </span>
     </div>
   )
 }

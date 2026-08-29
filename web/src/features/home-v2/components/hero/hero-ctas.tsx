@@ -37,24 +37,28 @@ export function HeroCtas({ className }: HeroCtasProps) {
     >
       <Button
         size='lg'
-        className='h-12 w-full rounded-lg bg-neutral-900 px-5 text-sm font-semibold text-white shadow-[0_4px_14px_rgba(15,15,15,0.18)] hover:bg-neutral-800 sm:w-auto'
+        className='tr-cta-primary tr-hero-part h-12 w-full rounded-lg bg-neutral-900 px-5 text-sm font-semibold text-white shadow-[0_4px_14px_rgba(20,17,15,0.18)] hover:bg-neutral-800 sm:w-auto'
+        style={{ ['--hero-delay' as string]: '360ms' }}
       >
         <KeyRound className='mr-2 size-4' />
         {t('Get API key')}
       </Button>
 
-      <div className='relative w-full pt-2 sm:w-auto sm:pt-0'>
+      <div
+        className='tr-hero-part relative w-full pt-2 sm:w-auto sm:pt-0'
+        style={{ ['--hero-delay' as string]: '420ms' }}
+      >
         <Button
           size='lg'
           variant='outline'
-          className='h-12 w-full rounded-lg border-neutral-900/15 bg-white/80 px-5 text-sm font-semibold text-neutral-900 shadow-[0_1px_2px_rgba(15,15,15,0.04)] backdrop-blur-sm hover:bg-white sm:w-auto'
+          className='tr-cta-secondary h-12 w-full rounded-lg border-neutral-900/15 bg-white/80 px-5 text-sm font-semibold text-neutral-900 shadow-[0_1px_2px_rgba(20,17,15,0.04)] backdrop-blur-sm sm:w-auto'
         >
           <MonitorDown className='mr-2 size-4' />
           {t('Download Desktop')}
         </Button>
         <span
           aria-hidden
-          className='pointer-events-none absolute top-0 right-3 -translate-y-1/2 rounded-md bg-neutral-900 px-2 py-0.5 text-[10px] font-semibold tracking-wide whitespace-nowrap text-white shadow-[0_2px_6px_rgba(15,15,15,0.25)]'
+          className='pointer-events-none absolute top-0 right-3 -translate-y-1/2 rounded-md bg-neutral-900 px-2 py-0.5 text-[10px] font-semibold tracking-wide whitespace-nowrap text-white shadow-[0_2px_6px_rgba(20,17,15,0.25)]'
         >
           {t('One-click setup')}
         </span>

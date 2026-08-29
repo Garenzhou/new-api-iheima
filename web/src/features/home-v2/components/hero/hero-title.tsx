@@ -29,19 +29,33 @@ export function HeroTitle({ className }: HeroTitleProps) {
   return (
     <h1
       className={cn(
-        'max-w-4xl text-balance text-[32px] leading-[1.15] font-bold tracking-tight sm:text-[40px] sm:leading-[1.1] md:text-[48px] md:leading-[1.05] lg:text-[56px] lg:leading-[1.05]',
+        'max-w-4xl text-balance text-[32px] leading-[1.15] font-bold tracking-[0] sm:text-[40px] sm:leading-[1.1] md:text-[48px] md:leading-[1.05] lg:text-[56px] lg:leading-[1.05]',
         className
       )}
     >
-      <span className='block text-neutral-900'>
+      <span
+        className='tr-hero-part block text-neutral-900'
+        style={{ ['--hero-delay' as string]: '60ms' }}
+      >
         {t('A unified LLM gateway built for')}
       </span>
       <span className='mt-1 block md:whitespace-nowrap'>
-        <span className='bg-gradient-to-r from-indigo-600 via-violet-600 to-pink-500 bg-clip-text text-transparent'>
+        <span
+          className='tr-hero-part inline-block bg-gradient-to-br from-indigo-500 via-violet-600 to-pink-500 bg-clip-text tracking-tight text-transparent'
+          style={{ ['--hero-delay' as string]: '160ms' }}
+        >
           {t('Claude Code')}
         </span>
-        <span className='text-neutral-900'>{' & '}</span>
-        <span className='bg-gradient-to-r from-indigo-600 via-violet-600 to-pink-500 bg-clip-text text-transparent'>
+        <span
+          className='tr-hero-part inline-block px-2 font-medium text-neutral-400'
+          style={{ ['--hero-delay' as string]: '220ms' }}
+        >
+          &amp;
+        </span>
+        <span
+          className='tr-hero-part inline-block bg-gradient-to-br from-indigo-500 via-violet-600 to-pink-500 bg-clip-text tracking-tight text-transparent'
+          style={{ ['--hero-delay' as string]: '280ms' }}
+        >
           {t('every agent you ship')}
         </span>
       </span>

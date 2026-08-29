@@ -169,22 +169,28 @@ function Hub({
       className='relative z-10 flex shrink-0 flex-col items-center gap-2'
       aria-label={label}
     >
-      <div
-        aria-hidden
-        className={cn(
-          'relative flex items-center justify-center rounded-full bg-gradient-to-br from-orange-300 via-orange-400 to-pink-400 shadow-[0_8px_24px_rgba(251,113,133,0.35)]',
-          sizeClass
-        )}
-      >
-        <div className='absolute inset-1 rounded-full bg-gradient-to-br from-white/40 to-transparent' />
-        <RouterGlyph
-          className={cn('relative z-10 text-white drop-shadow', iconClass)}
+      <div className='relative'>
+        <span
+          aria-hidden
+          className='tr-hub-ring pointer-events-none absolute inset-0 rounded-full bg-[var(--tr-ent-orange)]/40'
         />
+        <div
+          aria-hidden
+          className={cn(
+            'tr-hub relative flex items-center justify-center rounded-full shadow-[0_8px_24px_rgba(255,153,49,0.45)]',
+            sizeClass
+          )}
+        >
+          <div className='absolute inset-1 rounded-full bg-gradient-to-br from-white/40 to-transparent' />
+          <RouterGlyph
+            className={cn('relative z-10 text-white drop-shadow', iconClass)}
+          />
+        </div>
       </div>
       <div className='flex items-center gap-1.5 text-[12px] text-neutral-600'>
         <span
           aria-hidden
-          className='inline-block size-1.5 rounded-full bg-orange-500 shadow-[0_0_0_3px_rgba(249,115,22,0.18)]'
+          className='inline-block size-1.5 rounded-full bg-[var(--tr-ent-orange)] shadow-[0_0_0_3px_rgba(255,153,49,0.22)]'
         />
         <span className='font-medium'>{label}</span>
       </div>
@@ -258,7 +264,8 @@ function SpokeSvg({
           strokeWidth={1.2}
           strokeLinecap='round'
           vectorEffect='non-scaling-stroke'
-          className={cn(LINE_COLORS[i % LINE_COLORS.length], 'opacity-90')}
+          className={cn('tr-spoke', LINE_COLORS[i % LINE_COLORS.length])}
+          style={{ animationDelay: `${i * 0.4}s` }}
         />
       ))}
     </svg>
@@ -268,7 +275,7 @@ function SpokeSvg({
 function Card({ item }: { item: NodeItem }) {
   const { t } = useTranslation()
   return (
-    <div className='flex items-center gap-2.5 rounded-lg border border-black/5 bg-white/85 px-3 py-2 shadow-[0_1px_2px_rgba(15,15,15,0.04)] backdrop-blur-sm'>
+    <div className='tr-card flex items-center gap-2.5 rounded-lg border border-[var(--tr-cream-cell-line)] bg-white/85 px-3 py-2 shadow-[0_1px_2px_rgba(20,17,15,0.04)] backdrop-blur-sm'>
       <item.Icon className={cn('size-4', item.iconClass)} />
       <span className='text-[13px] font-semibold text-neutral-800'>
         {t(item.label)}

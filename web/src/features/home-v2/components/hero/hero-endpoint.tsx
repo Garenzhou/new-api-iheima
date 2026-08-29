@@ -62,9 +62,10 @@ export function HeroEndpoint({ className }: HeroEndpointProps) {
   return (
     <div
       className={cn(
-        'flex w-full max-w-xl items-stretch overflow-hidden rounded-lg border border-black/10 bg-white/80 shadow-[0_1px_2px_rgba(15,15,15,0.04)] backdrop-blur-sm',
+        'tr-endpoint tr-hero-part flex w-full max-w-xl items-stretch overflow-hidden rounded-lg border border-black/10 bg-white/80 backdrop-blur-sm',
         className
       )}
+      style={{ ['--hero-delay' as string]: '500ms' }}
     >
       <div className='relative flex shrink-0 items-center border-r border-black/10'>
         <select
@@ -105,7 +106,7 @@ export function HeroEndpoint({ className }: HeroEndpointProps) {
         className='m-1 size-9 rounded-md text-neutral-500 hover:bg-black/5 hover:text-neutral-900'
       >
         {copied ? (
-          <Check className='size-4 text-emerald-600' />
+          <Check className='tr-copy-check size-4 text-emerald-600' />
         ) : (
           <Copy className='size-4' />
         )}

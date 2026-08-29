@@ -853,3 +853,226 @@ For commercial licensing, please contact support@quantumnous.com
     transition: none;
   }
 }
+
+/* =============================================================
+ * home-v2 first-section hero — polish tokens & animations
+ *
+ * Tokens adapted from the teamorouter.com source CSS (extracted from
+ * /_next/static/css/bfcca6e1d23a843a.css). Values are renamespaced under
+ * `--tr-*` so they don't collide with the existing project palette.
+ * Keyframes share names with their public-header siblings and don't
+ * overwrite them (each class opts in by name).
+ * ============================================================= */
+
+:root {
+  --tr-ent-orange: #ff9931;
+  --tr-ent-orange-soft: #f6b23c;
+  --tr-ent-orange-deep: #e8890c;
+  --tr-ent-rust: #d0240f;
+  --tr-cream-bg: #fff6ee;
+  --tr-cream-bg-deep: #ffeede;
+  --tr-cream-cell: #fbeede;
+  --tr-cream-cell-line: #e8d5be;
+  --tr-ink: #14110f;
+  --tr-ink-soft: rgba(20, 17, 15, 0.62);
+  --tr-easing: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Title characters/parts fade-in with blur + lift, the way the reference
+ * home-hero-part does. Each child sets its own --hero-delay. */
+@keyframes tr-hero-title-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Pill status dot — box-shadow pulse, 2.4s. */
+@keyframes tr-hero-dot-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(208, 36, 15, 0.35);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(208, 36, 15, 0);
+  }
+  to {
+    box-shadow: 0 0 0 0 rgba(208, 36, 15, 0);
+  }
+}
+
+/* Hub center bloom — 1×↔1.08× scale, 2.6s. */
+@keyframes tr-hub-bloom {
+  0%,
+  to {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+/* Hub ring — outward expanding aura. */
+@keyframes tr-hub-ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.6;
+  }
+  70% {
+    opacity: 0.2;
+  }
+  to {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Spoke gentle pulse — opacity oscillates so the lines feel alive
+ * without depending on stroke-dasharray under non-scaling-stroke. */
+@keyframes tr-spoke-pulse {
+  0%,
+  to {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+/* Endpoint copy-button checkmark pop. */
+@keyframes tr-check-pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* --- composition classes --- */
+
+.tr-hero-part {
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(5px);
+  animation: tr-hero-title-in 0.56s var(--tr-easing) forwards;
+  animation-delay: var(--hero-delay, 0s);
+}
+
+.tr-pill {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.86))
+      padding-box,
+    linear-gradient(
+        120deg,
+        rgba(217, 119, 87, 0.55),
+        rgba(18, 18, 18, 0.1) 38%,
+        rgba(18, 18, 18, 0.1) 62%,
+        rgba(143, 167, 255, 0.45)
+      )
+      border-box;
+  box-shadow: 0 1px 2px rgba(20, 17, 15, 0.04);
+}
+
+.tr-pill-dot {
+  background: var(--tr-ent-rust);
+  animation: tr-hero-dot-pulse 2.4s ease-out infinite;
+}
+
+.tr-cta-primary {
+  transition:
+    transform 0.18s var(--tr-easing),
+    box-shadow 0.18s var(--tr-easing),
+    background-color 0.18s var(--tr-easing);
+}
+.tr-cta-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(20, 17, 15, 0.22);
+}
+
+.tr-cta-secondary {
+  transition:
+    transform 0.18s var(--tr-easing),
+    background-color 0.18s var(--tr-easing),
+    box-shadow 0.18s var(--tr-easing);
+}
+.tr-cta-secondary:hover {
+  transform: translateY(-1px);
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(20, 17, 15, 0.08);
+}
+
+.tr-endpoint {
+  transition:
+    border-color 0.18s var(--tr-easing),
+    box-shadow 0.18s var(--tr-easing);
+}
+.tr-endpoint:focus-within {
+  border-color: rgba(20, 17, 15, 0.18);
+  box-shadow: 0 1px 2px rgba(20, 17, 15, 0.04),
+    0 0 0 4px rgba(143, 167, 255, 0.18);
+}
+
+.tr-copy-check {
+  animation: tr-check-pop 0.28s var(--tr-easing) forwards;
+}
+
+.tr-hub {
+  background: linear-gradient(
+    180deg,
+    var(--tr-ent-orange-soft),
+    var(--tr-ent-orange-deep)
+  );
+  animation: tr-hub-bloom 2.6s ease-in-out infinite;
+}
+
+.tr-hub-ring {
+  animation: tr-hub-ring 2.6s ease-out infinite;
+}
+
+.tr-spoke {
+  animation: tr-spoke-pulse 2.8s ease-in-out infinite;
+}
+
+.tr-card {
+  transition:
+    transform 0.18s var(--tr-easing),
+    box-shadow 0.18s var(--tr-easing),
+    border-color 0.18s var(--tr-easing);
+}
+.tr-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(20, 17, 15, 0.08);
+  border-color: var(--tr-cream-cell-line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tr-hero-part,
+  .tr-pill-dot,
+  .tr-hub,
+  .tr-hub-ring,
+  .tr-spoke,
+  .tr-copy-check {
+    animation: none;
+  }
+  .tr-hero-part {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .tr-cta-primary,
+  .tr-cta-secondary,
+  .tr-endpoint,
+  .tr-card {
+    transition: none;
+  }
+}
