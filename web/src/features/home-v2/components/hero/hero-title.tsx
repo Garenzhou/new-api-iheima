@@ -82,7 +82,7 @@ export function HeroTitle({ className }: HeroTitleProps) {
   const line1Lead = 'The LLM router'
   const line1Tail = ', built for'
   // Line 2 lists the products the router targets. No cycling.
-  const line2 = 'ClaudeCode/Codex/OpenCode/...'
+  const line2 = 'ClaudeCode/Codex/OpenCode/OpenClaw/...'
 
   const line1Delay = 60
   const line2Delay =
@@ -110,7 +110,7 @@ export function HeroTitle({ className }: HeroTitleProps) {
           }
         />
       </span>
-      <span className='mt-1 block text-[24px] leading-[1.1] sm:text-[30px] sm:leading-[1.05] md:text-[34px] md:leading-[1.05] md:whitespace-nowrap lg:text-[40px] lg:leading-[1.05]'>
+      <span className='mt-1 block md:whitespace-nowrap'>
         <StaggeredText text={line2} startDelay={line2Delay} />
       </span>
     </h1>
