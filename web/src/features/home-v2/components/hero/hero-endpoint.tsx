@@ -30,15 +30,22 @@ const PROTOCOLS = [
   { id: 'gemini', label: 'Gemini API' },
 ] as const
 
-// Base URLs match what the project ships for CC Switch deep links
-// (see src/features/keys/lib/cc-switch.ts: APP_CONFIGS[*].endpointSuffix).
-// OpenAI-style HTTP APIs append /v1; Anthropic and Gemini (CLI apps) take
-// the bare base URL.
+// Full base URLs (server + path) per protocol, so the chip shows the
+// distinctive path tail for each provider at a glance. Paths mirror the
+// project's canonical request routes (see
+// src/features/models/constants.ts: anthropic.path, gemini.path).
+//   - OpenAI HTTP API:  /v1
+//   - OpenAI Chat:      /v1/chat/completions
+//   - Anthropic:        /v1/messages
+//   - Gemini:           /v1beta/models (the {model}:generateContent
+//                       segment is appended per-request by the caller,
+//                       so the bare prefix is the most useful constant
+//                       to copy here)
 const ENDPOINT_BY_PROTOCOL: Record<(typeof PROTOCOLS)[number]['id'], string> = {
   openai: 'https://atoken.tech/v1',
   'openai-chat': 'https://atoken.tech/v1/chat/completions',
-  anthropic: 'https://atoken.tech',
-  gemini: 'https://atoken.tech',
+  anthropic: 'https://atoken.tech/v1/messages',
+  gemini: 'https://atoken.tech/v1beta/models',
 }
 
 interface HeroEndpointProps {
