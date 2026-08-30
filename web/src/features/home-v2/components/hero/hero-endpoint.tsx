@@ -25,14 +25,20 @@ import { cn } from '@/lib/utils'
 
 const PROTOCOLS = [
   { id: 'openai', label: 'OpenAI API' },
+  { id: 'openai-chat', label: 'OpenAI Chat API' },
   { id: 'anthropic', label: 'Anthropic API' },
   { id: 'gemini', label: 'Gemini API' },
 ] as const
 
+// Base URLs match what the project ships for CC Switch deep links
+// (see src/features/keys/lib/cc-switch.ts: APP_CONFIGS[*].endpointSuffix).
+// OpenAI-style HTTP APIs append /v1; Anthropic and Gemini (CLI apps) take
+// the bare base URL.
 const ENDPOINT_BY_PROTOCOL: Record<(typeof PROTOCOLS)[number]['id'], string> = {
-  openai: 'https://api.atokenrouter.cn/v1',
-  anthropic: 'https://api.atokenrouter.cn/anthropic',
-  gemini: 'https://api.atokenrouter.cn/gemini',
+  openai: 'https://atoken.tech/v1',
+  'openai-chat': 'https://atoken.tech/v1/chat/completions',
+  anthropic: 'https://atoken.tech',
+  gemini: 'https://atoken.tech',
 }
 
 interface HeroEndpointProps {
@@ -92,10 +98,12 @@ export function HeroEndpoint({ className }: HeroEndpointProps) {
       </div>
 
       <code className='flex flex-1 items-center truncate px-3 py-2.5 font-mono text-[13px] text-neutral-800'>
-        <span className='truncate'>{url}</span>
-        <span className='ml-1 inline-block shrink-0 font-semibold text-pink-500'>
-          /v1
+        {/* "BaseUrl" prefix nudges new users who might otherwise wonder
+         * what this URL is for. Muted so it doesn't compete with the URL. */}
+        <span className='mr-1.5 shrink-0 font-sans text-[11px] font-medium tracking-wide text-neutral-400 uppercase'>
+          {t('BaseUrl')}
         </span>
+        <span className='truncate'>{url}</span>
       </code>
 
       <Button

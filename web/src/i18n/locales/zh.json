@@ -5352,6 +5352,7 @@
     "Download CCSwitch": "Download CCSwitch",
     "import api-key": "import api-key",
     "API protocol": "API 协议",
+    "BaseUrl": "BaseUrl",
     "Copy endpoint": "复制端点",
     "Model Providers": "模型供应商",
     "Coding Agents & Clients": "编码 Agent 与客户端",

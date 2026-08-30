@@ -5352,6 +5352,7 @@
     "Download CCSwitch": "Download CCSwitch",
     "import api-key": "import api-key",
     "API protocol": "API protocol",
+    "BaseUrl": "BaseUrl",
     "Copy endpoint": "Copy endpoint",
     "Model Providers": "Model Providers",
     "Coding Agents & Clients": "Coding Agents & Clients",
