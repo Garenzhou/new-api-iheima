@@ -67,7 +67,7 @@ export function Hero() {
         }}
       />
 
-      <div className='mx-auto flex w-full max-w-6xl flex-col items-center gap-7 px-6 pt-14 pb-16 md:gap-8 md:pt-20 md:pb-24 lg:pt-24'>
+      <div className='mx-auto flex w-full max-w-6xl flex-col items-center gap-7 px-6 pt-7 pb-16 md:gap-8 md:pt-10 md:pb-24 lg:pt-12'>
         <HeroPill />
 
         <HeroTitle className='text-center' />

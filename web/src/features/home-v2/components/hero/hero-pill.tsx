@@ -29,7 +29,7 @@ export function HeroPill({ className }: HeroPillProps) {
   return (
     <div
       className={cn(
-        'tr-pill tr-hero-part inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[13px] text-neutral-800',
+        'tr-pill tr-hero-part inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[19.5px] text-neutral-800',
         className
       )}
     >

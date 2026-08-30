@@ -37,7 +37,10 @@ export function PromoBanner({ className }: PromoBannerProps) {
       className={cn(
         // Blue → violet → purple animated gradient (new-api palette, not openstarry's rust).
         // The gradient slides back and forth on a 7s loop, mirroring openstarry's .promo-banner.
-        'relative overflow-hidden text-white',
+        // Sticky to the top-15 (60px) header so the banner stays anchored
+        // under the nav as the page scrolls. Sits above the hero content
+        // (z-40) but below modal layers.
+        'sticky top-15 z-40 overflow-hidden text-white',
         'bg-[linear-gradient(90deg,#1e3a8a_0%,#4f46e5_40%,#7c3aed_60%,#1e3a8a_100%)]',
         'bg-[length:200%_100%]',
         'animate-[promo-bg_7s_ease-in-out_infinite]',
