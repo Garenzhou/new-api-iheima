@@ -27,25 +27,19 @@ const PROTOCOLS = [
   { id: 'openai', label: 'OpenAI API' },
   { id: 'openai-chat', label: 'OpenAI Chat API' },
   { id: 'anthropic', label: 'Anthropic API' },
-  { id: 'gemini', label: 'Gemini API' },
 ] as const
 
 // Full base URLs (server + path) per protocol, so the chip shows the
 // distinctive path tail for each provider at a glance. Paths mirror the
 // project's canonical request routes (see
-// src/features/models/constants.ts: anthropic.path, gemini.path).
-//   - OpenAI HTTP API:  /v1
+// src/features/models/constants.ts: 'openai-response'.path, anthropic.path).
+//   - OpenAI Responses: /v1/responses
 //   - OpenAI Chat:      /v1/chat/completions
 //   - Anthropic:        /v1/messages
-//   - Gemini:           /v1beta/models (the {model}:generateContent
-//                       segment is appended per-request by the caller,
-//                       so the bare prefix is the most useful constant
-//                       to copy here)
 const ENDPOINT_BY_PROTOCOL: Record<(typeof PROTOCOLS)[number]['id'], string> = {
-  openai: 'https://atoken.tech/v1',
+  openai: 'https://atoken.tech/v1/responses',
   'openai-chat': 'https://atoken.tech/v1/chat/completions',
   anthropic: 'https://atoken.tech/v1/messages',
-  gemini: 'https://atoken.tech/v1beta/models',
 }
 
 interface HeroEndpointProps {
