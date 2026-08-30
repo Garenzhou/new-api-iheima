@@ -16,7 +16,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { KeyRound, MonitorDown } from 'lucide-react'
+import { KeyRound, MonitorDown, Tag } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/components/ui/button'
@@ -31,7 +31,7 @@ export function HeroCtas({ className }: HeroCtasProps) {
   return (
     <div
       className={cn(
-        'relative flex w-full max-w-md flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-3',
+        'relative flex w-full max-w-2xl flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-3',
         className
       )}
     >
@@ -42,6 +42,20 @@ export function HeroCtas({ className }: HeroCtasProps) {
       >
         <KeyRound className='mr-2 size-4' />
         {t('Get API key')}
+      </Button>
+
+      {/* "View Pricing" — links to /pricing (the model square). Internal
+       * route, so a plain <a> render swap is enough (TanStack Router
+       * will pick it up via the route configuration). */}
+      <Button
+        size='lg'
+        variant='outline'
+        className='tr-cta-secondary tr-hero-part h-12 w-full rounded-lg border-neutral-900/15 bg-white/80 px-5 text-sm font-semibold text-neutral-900 shadow-[0_1px_2px_rgba(20,17,15,0.04)] backdrop-blur-sm sm:w-auto'
+        style={{ '--hero-delay': '390ms' }}
+        render={<a href='/pricing' />}
+      >
+        <Tag className='mr-2 size-4' />
+        {t('View Pricing')}
       </Button>
 
       <div

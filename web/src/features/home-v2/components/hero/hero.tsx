@@ -72,7 +72,9 @@ export function Hero() {
 
         <HeroTitle className='text-center' />
 
-        <HeroCtas />
+        {/* `mt-*` doubles the visual gap between the title and the CTAs
+         * (parent already contributes its own `gap-7 md:gap-8`). */}
+        <HeroCtas className='mt-7 md:mt-8' />
 
         <HeroEndpoint />
 
