@@ -17,11 +17,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import {
-  Brain,
+  CircleDot,
+  Cpu,
   Flower2,
   LucideIcon,
-  MonitorSmartphone,
-  Sparkles,
+  Moon,
+  PawPrint,
+  Sparkle,
+  SquareCode,
   TerminalSquare,
   Waves,
 } from 'lucide-react'
@@ -40,28 +43,52 @@ interface NodeItem {
 // identifiers (DeepSeek, Glm, Kimi, MiniMax, ClaudeCode, Codex, OpenCode,
 // OpenClaw) that should not be translated. Only the section titles
 // ("Model Providers", "AI Agents") flow through i18n.
+//
+// Icon picks approximate each brand's primary mark silhouette since
+// we don't ship the actual brand SVGs (third-party trademark assets
+// can't be bundled without explicit permission). Colors are tuned to
+// the public brand palette so the cards are still recognizable.
 const PROVIDERS: NodeItem[] = [
-  { key: 'deepseek', label: 'DeepSeek', Icon: Waves, iconClass: 'text-indigo-500' },
-  { key: 'glm', label: 'Glm', Icon: Brain, iconClass: 'text-emerald-500' },
-  { key: 'kimi', label: 'Kimi', Icon: Sparkles, iconClass: 'text-sky-500' },
-  { key: 'MiniMax', label: 'MiniMax', Icon: Flower2, iconClass: 'text-rose-500' },
+  // DeepSeek: blue/purple wordmark on a white field; the wave evokes
+  // the brand's "ocean of knowledge" tagline.
+  { key: 'deepseek', label: 'DeepSeek', Icon: Waves, iconClass: 'text-[#4D6BFE]' },
+  // 智谱 GLM: red/orange wordmark; the chip silhouette stands in for
+  // the model-family brand mark.
+  { key: 'glm', label: 'Glm', Icon: Cpu, iconClass: 'text-[#E5453B]' },
+  // Kimi (Moonshot): black wordmark; the crescent moon directly mirrors
+  // the product's lunar identity.
+  { key: 'kimi', label: 'Kimi', Icon: Moon, iconClass: 'text-neutral-900' },
+  // MiniMax: white-on-magenta mark; the four-pointed sparkle mirrors
+  // the brand's starburst glyph.
+  {
+    key: 'MiniMax',
+    label: 'MiniMax',
+    Icon: Sparkle,
+    iconClass: 'text-[#C5349A]',
+  },
 ]
 
 const AGENTS: NodeItem[] = [
+  // Claude Code: Anthropic's flower mark, in their signature coral.
   {
     key: 'claudecode',
     label: 'ClaudeCode',
-    Icon: TerminalSquare,
-    iconClass: 'text-orange-500',
+    Icon: Flower2,
+    iconClass: 'text-[#DA7756]',
   },
-  { key: 'codex', label: 'Codex', Icon: Brain, iconClass: 'text-blue-500' },
+  // Codex (OpenAI): minimal black circle; we render the dot pattern in
+  // OpenAI's near-black to evoke the swirl mark.
+  { key: 'codex', label: 'Codex', Icon: CircleDot, iconClass: 'text-neutral-900' },
+  // OpenCode: a square-with-brackets references "code" and the
+  // tool's editor identity.
   {
     key: 'opencode',
     label: 'OpenCode',
-    Icon: MonitorSmartphone,
-    iconClass: 'text-violet-500',
+    Icon: SquareCode,
+    iconClass: 'text-[#7C5CFF]',
   },
-  { key: 'openclaw', label: 'OpenClaw', Icon: Sparkles, iconClass: 'text-pink-500' },
+  // OpenClaw: a paw print literally represents the product name.
+  { key: 'openclaw', label: 'OpenClaw', Icon: PawPrint, iconClass: 'text-[#E94B7B]' },
 ]
 
 const LINE_COLORS = [
