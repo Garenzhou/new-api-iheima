@@ -16,8 +16,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { useTranslation } from 'react-i18next'
-
 import { cn } from '@/lib/utils'
 
 interface HeroTitleProps {
@@ -76,14 +74,15 @@ function StaggeredText({
 }
 
 export function HeroTitle({ className }: HeroTitleProps) {
-  const { t } = useTranslation()
+  // Hardcoded — these are brand/product strings, not user-facing copy,
+  // so they don't go through i18n.
   // Line 1 is split into two visual segments so the brand phrase can
   // wear the gradient while the rest stays neutral, matching the
   // reference site ("The LLM router" in accent, ", built for" in ink).
-  const line1Lead = t('The LLM router')
-  const line1Tail = t(', built for')
-  // Line 2 is one steady accent phrase — no cycling.
-  const line2 = t('Claude Code and Codex')
+  const line1Lead = 'The LLM router'
+  const line1Tail = ', built for'
+  // Line 2 lists the products the router targets. No cycling.
+  const line2 = 'ClaudeCode/Codex/OpenCode/...'
 
   const line1Delay = 60
   const line2Delay =
@@ -111,7 +110,7 @@ export function HeroTitle({ className }: HeroTitleProps) {
           }
         />
       </span>
-      <span className='mt-1 block md:whitespace-nowrap'>
+      <span className='mt-1 block text-[24px] leading-[1.1] sm:text-[30px] sm:leading-[1.05] md:text-[34px] md:leading-[1.05] md:whitespace-nowrap lg:text-[40px] lg:leading-[1.05]'>
         <StaggeredText text={line2} startDelay={line2Delay} />
       </span>
     </h1>
