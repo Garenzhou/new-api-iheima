@@ -2081,7 +2081,7 @@
     "footer.columns.related.links.oneApi": "One API",
     "footer.columns.related.title": "相关项目",
     "footer.defaultCopyright": "版权所有。",
-    "footer.new\u0061pi.projectAttributionSuffix": "版权所有，由项目贡献者设计与开发。",
+    "footer.newapi.projectAttributionSuffix": "版权所有，由项目贡献者设计与开发。",
     "For channels added after May 10, 2025, no need to remove \".\" from model names during deployment": "对于 2025 年 5 月 10 日之后添加的渠道，在部署时无需从模型名称中移除 \".\"",
     "For Everyday People: Affordable, Polished LLM Token Relay Worldwide": "面向大众：全球实惠、精致的 LLM 令牌中转",
     "For private deployments, format: https://fastgpt.run/api/openapi": "对于私有部署，格式为：https://fastgpt.run/api/openapi",
@@ -5362,6 +5362,7 @@
     "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.": "这是受 openstarry.com 启发的新首页布局实验沙盒，区块将逐步添加。/ 路径下的当前首页保持不变。",
     "No card required · Never expires": "无需绑卡 · 永久有效",
     "Save 70% on your AI token spend": "为你节省70%的ai token开支",
-    "AI Agents": "AI 代理"
+    "AI Agents": "AI 代理",
+    "LLM Router": "LLM 路由器"
   }
 }

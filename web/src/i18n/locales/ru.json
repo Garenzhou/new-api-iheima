@@ -2081,7 +2081,7 @@
     "footer.columns.related.links.oneApi": "Один API",
     "footer.columns.related.title": "Связанные проекты",
     "footer.defaultCopyright": "Все права защищены.",
-    "footer.new\u0061pi.projectAttributionSuffix": "Все права защищены. Разработано участниками проекта.",
+    "footer.newapi.projectAttributionSuffix": "Все права защищены. Разработано участниками проекта.",
     "For channels added after May 10, 2025, no need to remove \".\" from model names during deployment": "Для каналов, добавленных после 10 мая 2025 г., не нужно удалять \".\" из имён моделей при развёртывании",
     "For Everyday People: Affordable, Polished LLM Token Relay Worldwide": "Для всех: доступный и безупречный ретранслятор LLM-токенов по всему миру",
     "For private deployments, format: https://fastgpt.run/api/openapi": "Для частных развертываний, формат: https://fastgpt.run/api/openapi",
@@ -5362,6 +5362,7 @@
     "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.": "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.",
     "No card required · Never expires": "No card required · Never expires",
     "Save 70% on your AI token spend": "Save 70% on your AI token spend",
-    "AI Agents": "ИИ-агенты"
+    "AI Agents": "ИИ-агенты",
+    "LLM Router": "LLM-маршрутизатор"
   }
 }

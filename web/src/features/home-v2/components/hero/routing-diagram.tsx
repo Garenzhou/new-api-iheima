@@ -110,7 +110,7 @@ export function RoutingDiagram({ className }: { className?: string }) {
           <Hub
             sizeClass='size-16 lg:size-20'
             iconClass='size-6 lg:size-7'
-            label={undefined}
+            label={t('LLM Router')}
           />
 
           <SpokeSvg
@@ -132,7 +132,7 @@ export function RoutingDiagram({ className }: { className?: string }) {
       {/* Mobile (< md) */}
       <div className='flex flex-col items-center gap-4 md:hidden'>
         <StackColumn title={t('Model Providers')} items={PROVIDERS} />
-        <MobileHub label={undefined} />
+        <MobileHub label={t('LLM Router')} />
         <StackColumn title={t('AI Agents')} items={AGENTS} />
       </div>
     </div>

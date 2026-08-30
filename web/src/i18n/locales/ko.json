@@ -2081,7 +2081,7 @@
     "footer.columns.related.links.oneApi": "One API",
     "footer.columns.related.title": "관련 프로젝트",
     "footer.defaultCopyright": "모든 권리 보유.",
-    "footer.new\u0061pi.projectAttributionSuffix": "모든 권리 보유. 프로젝트 기여자들이 설계하고 개발했습니다.",
+    "footer.newapi.projectAttributionSuffix": "모든 권리 보유. 프로젝트 기여자들이 설계하고 개발했습니다.",
     "For channels added after May 10, 2025, no need to remove \".\" from model names during deployment": "2025년 5월 10일 이후 추가된 채널은 배포 중 모델 이름에서 \".\"을 제거할 필요가 없습니다.",
     "For Everyday People: Affordable, Polished LLM Token Relay Worldwide": "일반 사용자를 위한: 전 세계에서 저렴하고 완성도 높은 LLM 토큰 중계",
     "For private deployments, format: https://fastgpt.run/api/openapi": "프라이빗 배포의 경우 형식: https://fastgpt.run/api/openapi",
@@ -5362,6 +5362,7 @@
     "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.": "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.",
     "No card required · Never expires": "No card required · Never expires",
     "Save 70% on your AI token spend": "Save 70% on your AI token spend",
-    "AI Agents": "AI 에이전트"
+    "AI Agents": "AI 에이전트",
+    "LLM Router": "LLM 라우터"
   }
 }

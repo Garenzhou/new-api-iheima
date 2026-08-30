@@ -2081,7 +2081,7 @@
     "footer.columns.related.links.oneApi": "1つのAPI",
     "footer.columns.related.title": "関連プロジェクト",
     "footer.defaultCopyright": "すべての権利を留保します。",
-    "footer.new\u0061pi.projectAttributionSuffix": "すべての権利を留保します。プロジェクトコントリビューターにより設計・開発されています。",
+    "footer.newapi.projectAttributionSuffix": "すべての権利を留保します。プロジェクトコントリビューターにより設計・開発されています。",
     "For channels added after May 10, 2025, no need to remove \".\" from model names during deployment": "2025 年 5 月 10 日以降に追加されたチャネルの場合、デプロイ時にモデル名から「.」を削除する必要はありません",
     "For Everyday People: Affordable, Polished LLM Token Relay Worldwide": "誰でも使える、世界中の手頃で洗練された LLM トークンリレー",
     "For private deployments, format: https://fastgpt.run/api/openapi": "プライベートデプロイメントの場合、形式: https://fastgpt.run/api/openapi",
@@ -5362,6 +5362,7 @@
     "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.": "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.",
     "No card required · Never expires": "No card required · Never expires",
     "Save 70% on your AI token spend": "Save 70% on your AI token spend",
-    "AI Agents": "AIエージェント"
+    "AI Agents": "AIエージェント",
+    "LLM Router": "LLMルーター"
   }
 }
