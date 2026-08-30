@@ -52,15 +52,26 @@ export function HeroCtas({ className }: HeroCtasProps) {
           size='lg'
           variant='outline'
           className='tr-cta-secondary h-12 w-full rounded-lg border-neutral-900/15 bg-white/80 px-5 text-sm font-semibold text-neutral-900 shadow-[0_1px_2px_rgba(20,17,15,0.04)] backdrop-blur-sm sm:w-auto'
+          // External product — opens the CC Switch site in a new tab.
+          // The Button primitive supports `render` to swap the underlying
+          // element; passing an <a> turns the button into a real link
+          // (right-click copy, middle-click open, etc.).
+          render={
+            <a
+              href='https://ccswitch.io/'
+              target='_blank'
+              rel='noopener noreferrer'
+            />
+          }
         >
           <MonitorDown className='mr-2 size-4' />
-          {t('Download Desktop')}
+          {t('Download CCSwitch')}
         </Button>
         <span
           aria-hidden
           className='pointer-events-none absolute top-0 right-3 -translate-y-1/2 rounded-md bg-neutral-900 px-2 py-0.5 text-[10px] font-semibold tracking-wide whitespace-nowrap text-white shadow-[0_2px_6px_rgba(20,17,15,0.25)]'
         >
-          {t('One-click setup')}
+          {t('import api-key')}
         </span>
       </div>
     </div>
