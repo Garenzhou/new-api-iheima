@@ -82,7 +82,7 @@ export function HeroTitle({ className }: HeroTitleProps) {
   const line1Lead = 'The LLM router'
   const line1Tail = ', built for'
   // Line 2 lists the products the router targets. No cycling.
-  const line2 = 'ClaudeCode/Codex/OpenCode/OpenClaw/...'
+  const line2 = 'ClaudeCode/Codex/OpenCode...'
 
   const line1Delay = 60
   const line2Delay =
