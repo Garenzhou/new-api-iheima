@@ -28,7 +28,7 @@ export function HomeV2() {
       <div aria-hidden className='h-15' />
       <PromoBanner />
       <Hero />
-      <Footer />
+      <Footer hideBrand />
     </PublicLayout>
   )
 }

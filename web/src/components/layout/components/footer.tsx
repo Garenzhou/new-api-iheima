@@ -40,6 +40,12 @@ interface FooterProps {
   columns?: FooterColumnProps[]
   copyright?: string
   className?: string
+  /**
+   * When true, the brand column (logo + product name + tagline) is not
+   * rendered. Used by pages that already present the brand in their
+   * own hero (e.g. home-v2), so the footer doesn't duplicate it.
+   */
+  hideBrand?: boolean
 }
 
 const NEW_API_FOOTER_ATTRIBUTION_KEY = [
@@ -244,24 +250,27 @@ export function Footer(props: FooterProps) {
     >
       <div className='mx-auto max-w-6xl px-6 py-12 md:py-16'>
         <div className='flex flex-col justify-between gap-10 md:flex-row md:gap-16'>
-          {/* Brand column */}
-          <div className='shrink-0'>
-            <Link to='/' className='group flex items-center gap-2.5'>
-              <img
-                src={displayLogo}
-                alt={displayName}
-                className='size-7 rounded-lg object-contain'
-              />
-              <span className='text-sm font-semibold tracking-tight'>
-                {displayName}
-              </span>
-            </Link>
-            <p className='text-muted-foreground/60 mt-3 max-w-[200px] text-xs leading-relaxed'>
-              {t(
-                'For Everyday People: Affordable, Polished LLM Token Relay Worldwide'
-              )}
-            </p>
-          </div>
+          {/* Brand column — hidden when the page already presents the
+           * brand in its own hero (e.g. home-v2). */}
+          {!props.hideBrand && (
+            <div className='shrink-0'>
+              <Link to='/' className='group flex items-center gap-2.5'>
+                <img
+                  src={displayLogo}
+                  alt={displayName}
+                  className='size-7 rounded-lg object-contain'
+                />
+                <span className='text-sm font-semibold tracking-tight'>
+                  {displayName}
+                </span>
+              </Link>
+              <p className='text-muted-foreground/60 mt-3 max-w-[200px] text-xs leading-relaxed'>
+                {t(
+                  'For Everyday People: Affordable, Polished LLM Token Relay Worldwide'
+                )}
+              </p>
+            </div>
+          )}
 
           {/* Links columns */}
           {isDemoSiteMode && (
