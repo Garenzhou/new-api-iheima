@@ -98,10 +98,10 @@ export function HeroEndpoint({ className }: HeroEndpointProps) {
       </div>
 
       <code className='flex flex-1 items-center truncate px-3 py-2.5 font-mono text-[13px] text-neutral-800'>
-        {/* "BaseUrl" prefix nudges new users who might otherwise wonder
+        {/* "Endpoint" prefix nudges new users who might otherwise wonder
          * what this URL is for. Muted so it doesn't compete with the URL. */}
         <span className='mr-1.5 shrink-0 font-sans text-[11px] font-medium tracking-wide text-neutral-400 uppercase'>
-          {t('BaseUrl')}
+          {t('Endpoint')}
         </span>
         <span className='truncate'>{url}</span>
       </code>
