@@ -68,13 +68,17 @@ export function Hero() {
       />
 
       <div className='mx-auto flex w-full max-w-6xl flex-col items-center gap-7 px-6 pt-7 pb-16 md:gap-8 md:pt-10 md:pb-24 lg:pt-12'>
-        <HeroPill />
+        {/* `mt-*` adds 0.5x of the standard gap above the pill, so the
+         * pill breathes a little more before the title. */}
+        <HeroPill className='mt-3.5 md:mt-4' />
 
         <HeroTitle className='text-center' />
 
         {/* `mt-*` doubles the visual gap between the title and the CTAs
-         * (parent already contributes its own `gap-7 md:gap-8`). */}
-        <HeroCtas className='mt-7 md:mt-8' />
+         * (parent already contributes its own `gap-7 md:gap-8`). The
+         * `mb-*` adds another 0.5x so the CTAs sit a bit further from
+         * the endpoint chip below. */}
+        <HeroCtas className='mt-7 mb-3.5 md:mt-8 md:mb-4' />
 
         <HeroEndpoint />
 
