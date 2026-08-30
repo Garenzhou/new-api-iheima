@@ -107,8 +107,13 @@ export function HeroTitle({ className }: HeroTitleProps) {
     PART_STAGGER_MS
 
   return (
+    // The h1 string is hardcoded English (brand/product copy, not
+    // user-facing copy), so we force dir="ltr" here even when the page
+    // is in an RTL locale (e.g. ar). This keeps the per-char reveal
+    // order LTR and stops the text from mirroring under RTL.
     <h1
       key={cycle}
+      dir='ltr'
       className={cn(
         'max-w-4xl text-balance text-[32px] leading-[1.15] font-bold tracking-[0] sm:text-[40px] sm:leading-[1.1] md:text-[48px] md:leading-[1.05] lg:text-[56px] lg:leading-[1.05]',
         className
