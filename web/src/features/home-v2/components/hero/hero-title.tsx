@@ -16,6 +16,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
+import { useEffect, useState } from 'react'
+
 import { cn } from '@/lib/utils'
 
 interface HeroTitleProps {
@@ -24,6 +26,9 @@ interface HeroTitleProps {
 
 const CHAR_STAGGER_MS = 18
 const PART_STAGGER_MS = 220
+// How long the visible title stays put before the per-char reveal
+// replays. 5s is enough to read the line and matches the reference.
+const REPLAY_INTERVAL_MS = 5_000
 
 // `tracking-tight` makes the gradient line read denser and matches the
 // reference visual weight. Applied on the gradient segments only so
@@ -74,6 +79,17 @@ function StaggeredText({
 }
 
 export function HeroTitle({ className }: HeroTitleProps) {
+  // Bump `cycle` every REPLAY_INTERVAL_MS so the h1 remounts; that
+  // re-runs each child's CSS animation from t=0, which preserves the
+  // per-char --char-delay stagger on every replay (a single CSS
+  // iteration can't preserve stagger across loop boundaries because
+  // animation-delay only applies to the first iteration).
+  const [cycle, setCycle] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setCycle((c) => c + 1), REPLAY_INTERVAL_MS)
+    return () => clearInterval(id)
+  }, [])
+
   // Hardcoded — these are brand/product strings, not user-facing copy,
   // so they don't go through i18n.
   // Line 1 is split into two visual segments so the brand phrase can
@@ -92,6 +108,7 @@ export function HeroTitle({ className }: HeroTitleProps) {
 
   return (
     <h1
+      key={cycle}
       className={cn(
         'max-w-4xl text-balance text-[32px] leading-[1.15] font-bold tracking-[0] sm:text-[40px] sm:leading-[1.1] md:text-[48px] md:leading-[1.05] lg:text-[56px] lg:leading-[1.05]',
         className

@@ -970,7 +970,9 @@ For commercial licensing, please contact support@quantumnous.com
 /* Per-character reveal: matches the reference home-hero-char spec —
  * inline-block, start with a small lift, slight scale-down, and a 6px
  * blur. Each <span> sets its own --char-delay so the title types
- * itself out char-by-char. */
+ * itself out char-by-char. Single-play; the title component bumps a
+ * React key on a 5s interval so the spans remount and the per-char
+ * stagger replays cleanly. */
 .tr-hero-char {
   display: inline-block;
   opacity: 0;
