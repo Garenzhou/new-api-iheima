@@ -5354,9 +5354,6 @@
     "API protocol": "API protocol",
     "Copy endpoint": "Copy endpoint",
     "Model Providers": "Model Providers",
-    "Coding Agents & Clients": "Coding Agents & Clients",
-    "Smart Routing": "Smart Routing",
-    "Works with 10+ coding agents and clients": "Works with 10+ coding agents and clients",
     "GPT": "GPT",
     "Cline": "Cline",
     "OpenCode": "OpenCode",
@@ -5364,6 +5361,7 @@
     "Toggle menu": "Toggle menu",
     "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.": "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.",
     "No card required · Never expires": "No card required · Never expires",
-    "Save 70% on your AI token spend": "Save 70% on your AI token spend"
+    "Save 70% on your AI token spend": "Save 70% on your AI token spend",
+    "AI Agents": "AIエージェント"
   }
 }

@@ -36,28 +36,32 @@ interface NodeItem {
   iconClass: string
 }
 
+// Brand names below are hardcoded on purpose — these are product/vendor
+// identifiers (DeepSeek, Glm, Kimi, MiniMax, ClaudeCode, Codex, OpenCode,
+// OpenClaw) that should not be translated. Only the section titles
+// ("Model Providers", "AI Agents") flow through i18n.
 const PROVIDERS: NodeItem[] = [
-  { key: 'claude', label: 'Claude', Icon: Flower2, iconClass: 'text-orange-500' },
-  { key: 'gpt', label: 'GPT', Icon: Brain, iconClass: 'text-emerald-500' },
-  { key: 'gemini', label: 'Gemini', Icon: Sparkles, iconClass: 'text-sky-500' },
   { key: 'deepseek', label: 'DeepSeek', Icon: Waves, iconClass: 'text-indigo-500' },
+  { key: 'glm', label: 'Glm', Icon: Brain, iconClass: 'text-emerald-500' },
+  { key: 'kimi', label: 'Kimi', Icon: Sparkles, iconClass: 'text-sky-500' },
+  { key: 'MiniMax', label: 'MiniMax', Icon: Flower2, iconClass: 'text-rose-500' },
 ]
 
 const AGENTS: NodeItem[] = [
   {
-    key: 'claude-code',
-    label: 'Claude Code',
+    key: 'claudecode',
+    label: 'ClaudeCode',
     Icon: TerminalSquare,
     iconClass: 'text-orange-500',
   },
   { key: 'codex', label: 'Codex', Icon: Brain, iconClass: 'text-blue-500' },
-  { key: 'cline', label: 'Cline', Icon: Sparkles, iconClass: 'text-pink-500' },
   {
     key: 'opencode',
     label: 'OpenCode',
     Icon: MonitorSmartphone,
     iconClass: 'text-violet-500',
   },
+  { key: 'openclaw', label: 'OpenClaw', Icon: Sparkles, iconClass: 'text-pink-500' },
 ]
 
 const LINE_COLORS = [
@@ -106,7 +110,7 @@ export function RoutingDiagram({ className }: { className?: string }) {
           <Hub
             sizeClass='size-16 lg:size-20'
             iconClass='size-6 lg:size-7'
-            label={t('Smart Routing')}
+            label={undefined}
           />
 
           <SpokeSvg
@@ -122,19 +126,15 @@ export function RoutingDiagram({ className }: { className?: string }) {
           </div>
         </div>
 
-        <SideLabel align='right' text={t('Coding Agents & Clients')} />
+        <SideLabel align='right' text={t('AI Agents')} />
       </div>
 
       {/* Mobile (< md) */}
       <div className='flex flex-col items-center gap-4 md:hidden'>
         <StackColumn title={t('Model Providers')} items={PROVIDERS} />
-        <MobileHub label={t('Smart Routing')} />
-        <StackColumn title={t('Coding Agents & Clients')} items={AGENTS} />
+        <MobileHub label={undefined} />
+        <StackColumn title={t('AI Agents')} items={AGENTS} />
       </div>
-
-      <p className='mt-6 text-center text-[12px] text-neutral-500 md:mt-8'>
-        {t('Works with 10+ coding agents and clients')}
-      </p>
     </div>
   )
 }
@@ -162,7 +162,7 @@ function Hub({
 }: {
   sizeClass: string
   iconClass: string
-  label: string
+  label?: string
 }) {
   return (
     <div
@@ -187,18 +187,20 @@ function Hub({
           />
         </div>
       </div>
-      <div className='flex items-center gap-1.5 text-[12px] text-neutral-600'>
-        <span
-          aria-hidden
-          className='inline-block size-1.5 rounded-full bg-[var(--tr-ent-orange)] shadow-[0_0_0_3px_rgba(255,153,49,0.22)]'
-        />
-        <span className='font-medium'>{label}</span>
-      </div>
+      {label && (
+        <div className='flex items-center gap-1.5 text-[12px] text-neutral-600'>
+          <span
+            aria-hidden
+            className='inline-block size-1.5 rounded-full bg-[var(--tr-ent-orange)] shadow-[0_0_0_3px_rgba(255,153,49,0.22)]'
+          />
+          <span className='font-medium'>{label}</span>
+        </div>
+      )}
     </div>
   )
 }
 
-function MobileHub({ label }: { label: string }) {
+function MobileHub({ label }: { label?: string }) {
   return (
     <div className='flex flex-col items-center gap-2' aria-label={label}>
       <div
@@ -208,13 +210,15 @@ function MobileHub({ label }: { label: string }) {
         <div className='absolute inset-1 rounded-full bg-gradient-to-br from-white/40 to-transparent' />
         <RouterGlyph className='relative z-10 size-5 text-white drop-shadow' />
       </div>
-      <div className='flex items-center gap-1.5 text-[12px] text-neutral-600'>
-        <span
-          aria-hidden
-          className='inline-block size-1.5 rounded-full bg-orange-500 shadow-[0_0_0_3px_rgba(249,115,22,0.18)]'
-        />
-        <span className='font-medium'>{label}</span>
-      </div>
+      {label && (
+        <div className='flex items-center gap-1.5 text-[12px] text-neutral-600'>
+          <span
+            aria-hidden
+            className='inline-block size-1.5 rounded-full bg-orange-500 shadow-[0_0_0_3px_rgba(249,115,22,0.18)]'
+          />
+          <span className='font-medium'>{label}</span>
+        </div>
+      )}
     </div>
   )
 }
@@ -273,12 +277,14 @@ function SpokeSvg({
 }
 
 function Card({ item }: { item: NodeItem }) {
-  const { t } = useTranslation()
+  // Brand/vendor names are not translated — they are product identifiers
+  // (DeepSeek, Glm, Kimi, ClaudeCode, Codex, OpenCode). Only the section
+  // titles in SideLabel/StackColumn flow through i18n.
   return (
     <div className='tr-card flex items-center gap-2.5 rounded-lg border border-[var(--tr-cream-cell-line)] bg-white/85 px-3 py-2 shadow-[0_1px_2px_rgba(20,17,15,0.04)] backdrop-blur-sm'>
       <item.Icon className={cn('size-4', item.iconClass)} />
       <span className='text-[13px] font-semibold text-neutral-800'>
-        {t(item.label)}
+        {item.label}
       </span>
     </div>
   )
