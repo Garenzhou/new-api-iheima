@@ -35,7 +35,7 @@ export function HeroPill({ className }: HeroPillProps) {
     >
       <span aria-hidden className='tr-pill-dot inline-block size-1.5 rounded-full' />
       <span className='font-medium tracking-tight'>
-        {t('40+ Official Models · up to 90% off')}
+        {t('Save 70% on your AI token spend')}
       </span>
     </div>
   )

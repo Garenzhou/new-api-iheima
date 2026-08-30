@@ -5336,7 +5336,6 @@
     "Claim now": "立即领取",
     "Dismiss promo": "关闭公告",
     "Home v2 — Design in Progress": "Home v2 — 设计进行中",
-    "Limited time offer": "限时活动",
     "Log in / Sign up": "登录 / 注册",
     "New homepage redesign sandbox": "新首页设计沙盒",
     "Quickstart": "快速开始",
@@ -5347,10 +5346,8 @@
     "Top up & redeem codes": "充值与兑换码",
     "Integrate": "接入",
     "API Reference": "API 参考",
-    "No card required · Never expires · 40+ models available": "无需绑卡 · 永久有效 · 40+ 个模型可用",
     "Sign up now and instantly receive 200 free model calls": "现在注册，立即免费获赠 200 次大模型调用权益",
     "Sandbox · v0.0.1": "沙盒 · v0.0.1",
-    "40+ Official Models · up to 90% off": "40+ 官方模型 · 最高 9 折优惠",
     "Get API key": "获取 API Key",
     "Download Desktop": "下载桌面客户端",
     "One-click setup": "一键配置",
@@ -5365,6 +5362,8 @@
     "OpenCode": "OpenCode",
     "AToken Router home": "AToken Router 首页",
     "Toggle menu": "切换菜单",
-    "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.": "这是受 openstarry.com 启发的新首页布局实验沙盒，区块将逐步添加。/ 路径下的当前首页保持不变。"
+    "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.": "这是受 openstarry.com 启发的新首页布局实验沙盒，区块将逐步添加。/ 路径下的当前首页保持不变。",
+    "No card required · Never expires": "无需绑卡 · 永久有效",
+    "Save 70% on your AI token spend": "为你节省70%的ai token开支"
   }
 }

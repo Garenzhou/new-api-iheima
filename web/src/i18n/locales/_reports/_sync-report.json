@@ -1,9 +1,9 @@
 {
-  "base": "en.json",
+  "base": "ar.json",
   "locales": {
     "ar": {
       "file": "ar.json",
-      "missingCount": 34,
+      "missingCount": 0,
       "extrasCount": 0,
       "untranslatedCount": 0
     },
@@ -15,37 +15,37 @@
     },
     "fr": {
       "file": "fr.json",
-      "missingCount": 34,
+      "missingCount": 0,
       "extrasCount": 0,
-      "untranslatedCount": 7
+      "untranslatedCount": 6
     },
     "ja": {
       "file": "ja.json",
-      "missingCount": 34,
+      "missingCount": 0,
       "extrasCount": 0,
-      "untranslatedCount": 36
+      "untranslatedCount": 35
     },
     "ko": {
       "file": "ko.json",
-      "missingCount": 34,
+      "missingCount": 0,
       "extrasCount": 0,
       "untranslatedCount": 0
     },
     "ru": {
       "file": "ru.json",
-      "missingCount": 34,
+      "missingCount": 0,
       "extrasCount": 0,
-      "untranslatedCount": 36
+      "untranslatedCount": 35
     },
     "vi": {
       "file": "vi.json",
-      "missingCount": 34,
+      "missingCount": 0,
       "extrasCount": 0,
-      "untranslatedCount": 7
+      "untranslatedCount": 6
     },
     "zh-TW": {
       "file": "zh-TW.json",
-      "missingCount": 34,
+      "missingCount": 0,
       "extrasCount": 0,
       "untranslatedCount": 0
     },

@@ -5336,7 +5336,6 @@
     "Claim now": "Claim now",
     "Dismiss promo": "Dismiss promo",
     "Home v2 — Design in Progress": "Home v2 — Design in Progress",
-    "Limited time offer": "Limited time offer",
     "Log in / Sign up": "Log in / Sign up",
     "New homepage redesign sandbox": "New homepage redesign sandbox",
     "Quickstart": "Quickstart",
@@ -5347,10 +5346,8 @@
     "Top up & redeem codes": "Top up & redeem codes",
     "Integrate": "Integrate",
     "API Reference": "API Reference",
-    "No card required · Never expires · 40+ models available": "No card required · Never expires · 40+ models available",
     "Sign up now and instantly receive 200 free model calls": "Sign up now and instantly receive 200 free model calls",
     "Sandbox · v0.0.1": "Sandbox · v0.0.1",
-    "40+ Official Models · up to 90% off": "40+ Official Models · up to 90% off",
     "Get API key": "Get API key",
     "Download Desktop": "Download Desktop",
     "One-click setup": "One-click setup",
@@ -5365,6 +5362,8 @@
     "OpenCode": "OpenCode",
     "AToken Router home": "AToken Router home",
     "Toggle menu": "Toggle menu",
-    "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.": "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged."
+    "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.": "This is an experimental sandbox for the new homepage layout, inspired by openstarry.com. Sections will be added incrementally. The current home page at / remains unchanged.",
+    "No card required · Never expires": "No card required · Never expires",
+    "Save 70% on your AI token spend": "Save 70% on your AI token spend"
   }
 }

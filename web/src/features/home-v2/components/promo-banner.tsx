@@ -55,21 +55,12 @@ export function PromoBanner({ className }: PromoBannerProps) {
           'mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-5 gap-y-2 px-6 py-3 md:px-10'
         )}
       >
-        <span
-          className={cn(
-            // Mirrors openstarry's .promo-badge: mono, small caps, hairline border.
-            'shrink-0 rounded-sm border border-white/30 bg-white/15 px-2.5 py-1 font-mono text-[10px] font-semibold tracking-[1.5px] uppercase'
-          )}
-        >
-          {t('Limited time offer')}
-        </span>
-
         <div className='flex flex-wrap items-center gap-2.5'>
           <strong className='text-[15px] font-semibold tracking-tight'>
             {t('Sign up now and instantly receive 200 free model calls')}
           </strong>
           <span className='font-mono text-xs text-white/75'>
-            {t('No card required · Never expires · 40+ models available')}
+            {t('No card required · Never expires')}
           </span>
         </div>
 
