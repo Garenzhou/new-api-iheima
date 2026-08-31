@@ -50,8 +50,13 @@ web/scripts/.translate-ar-cache.json
 # i18n translation working files
 web/scripts/.translate-*-cache.json
 
-__pycache__/
-*.pyc
-
 # i18n sync temp reports
 web/src/i18n/locales/_reports/*.untranslated.json
+
+# Local-only i18n extras written by the translation pipeline; regenerated
+# on the next sync. Not part of the published source.
+web/src/i18n/locales/_extras/
+
+# Design reference screenshots kept alongside web/ for local comparison
+# during UI work. Not part of the published source.
+web/.design-refs/
