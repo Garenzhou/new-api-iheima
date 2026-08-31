@@ -17,11 +17,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import type { TopNavLink } from '../types'
+import { PromoBar } from './promo-bar'
 import { PublicHeader, type PublicHeaderProps } from './public-header'
 
 type PublicLayoutProps = {
   children: React.ReactNode
   showMainContainer?: boolean
+  showPromoBar?: boolean
   navContent?: React.ReactNode
   headerProps?: Omit<PublicHeaderProps, 'navContent'>
   navLinks?: TopNavLink[]
@@ -45,6 +47,8 @@ export function PublicLayout(props: PublicLayoutProps) {
         siteName={props.siteName}
         {...props.headerProps}
       />
+
+      {props.showPromoBar !== false && <PromoBar />}
 
       {props.showMainContainer !== false ? (
         <main className='container px-4 py-6 pt-15 md:px-4'>

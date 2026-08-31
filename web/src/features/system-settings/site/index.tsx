@@ -36,6 +36,8 @@ const defaultSiteSettings: SiteSettings = {
   'legal.privacy_policy': '',
   HeaderNavModules: '',
   SidebarModulesAdmin: '',
+  'promo_setting.enabled': true,
+  'promo_setting.text': '注册即可解锁每日200次的免费请求',
 }
 
 export function SiteSettings() {

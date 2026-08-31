@@ -23,7 +23,7 @@ import { Hero, PromoBanner } from './components'
 
 export function HomeV2() {
   return (
-    <PublicLayout showMainContainer={false}>
+    <PublicLayout showMainContainer={false} showPromoBar={false}>
       {/* Spacer for the fixed nav (h-15 = 60px). */}
       <div aria-hidden className='h-15' />
       <PromoBanner />

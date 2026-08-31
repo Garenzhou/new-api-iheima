@@ -47,6 +47,9 @@ interface StatusApiResponse {
     usd_exchange_rate?: number
     custom_currency_symbol?: string
     custom_currency_exchange_rate?: number
+    promo_bar_enabled?: boolean
+    promo_bar_text?: string
+    free_topup_enabled?: boolean
   }
 }
 

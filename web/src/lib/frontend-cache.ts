@@ -16,6 +16,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
+import { PROMO_BAR_DISMISS_KEY } from '@/components/layout/components/promo-bar'
+
 const FRONTEND_CACHE_VERSION = 'default-v1'
 const FRONTEND_CACHE_VERSION_KEY = 'newapi:default:cache-version'
 const PRESERVED_LOCAL_STORAGE_KEYS = new Set([
@@ -24,6 +26,9 @@ const PRESERVED_LOCAL_STORAGE_KEYS = new Set([
   'uid',
   'aff',
   'oauth:binding:result',
+  // Promo bar dismiss timestamp: must survive the cache-version wipe so that
+  // a dismissed bar stays hidden until its 3-day window expires.
+  PROMO_BAR_DISMISS_KEY,
 ])
 
 export function initializeFrontendCache(): void {
