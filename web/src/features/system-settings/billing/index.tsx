@@ -111,6 +111,12 @@ const defaultBillingSettings: BillingSettings = {
   'checkin_setting.enabled': false,
   'checkin_setting.min_quota': 1000,
   'checkin_setting.max_quota': 10000,
+  'free_topup_setting.enabled': true,
+  'free_topup_setting.target_quota': 5000,
+  'free_topup_setting.threshold_quota': 5000,
+  'free_topup_setting.batch_size': 200,
+  'free_topup_setting.daily_run_hour': 0,
+  'free_topup_setting.daily_run_minute': 0,
 }
 
 export function BillingSettings() {

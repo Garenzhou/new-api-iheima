@@ -123,6 +123,9 @@ func GetStatus(c *gin.Context) {
 		"user_agreement_enabled":      legalSetting.UserAgreement != "",
 		"privacy_policy_enabled":      legalSetting.PrivacyPolicy != "",
 		"checkin_enabled":             operation_setting.GetCheckinSetting().Enabled,
+		"promo_bar_enabled":           operation_setting.IsPromoBarEnabled() && operation_setting.GetPromoBarText() != "",
+		"promo_bar_text":              operation_setting.GetPromoBarText(),
+		"free_topup_enabled":          operation_setting.IsFreeTopupEnabled() && operation_setting.GetFreeTopupTargetQuota() > 0,
 	}
 
 	// 根据启用状态注入可选内容

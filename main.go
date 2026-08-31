@@ -128,6 +128,11 @@ func main() {
 	// Subscription quota reset task (daily/weekly/monthly/custom)
 	service.StartSubscriptionQuotaResetTask()
 
+	// Daily free topup task: for each user with balance below the threshold,
+	// top them up to the target once per day. Drives the "X free calls per day"
+	// product flow when paired with a 0.00005/request model.
+	service.StartFreeTopupTask()
+
 	// Report this process as a system instance so the System Info page can show
 	// all currently alive nodes in multi-instance deployments.
 	service.StartSystemInstanceReporter()

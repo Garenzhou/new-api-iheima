@@ -118,6 +118,8 @@ export type SiteSettings = {
   'legal.privacy_policy': string
   HeaderNavModules: string
   SidebarModulesAdmin: string
+  'promo_setting.enabled': boolean
+  'promo_setting.text': string
 }
 
 export type AuthSettings = {
@@ -339,6 +341,12 @@ export type BillingSettings = {
   'checkin_setting.enabled': boolean
   'checkin_setting.min_quota': number
   'checkin_setting.max_quota': number
+  'free_topup_setting.enabled': boolean
+  'free_topup_setting.target_quota': number
+  'free_topup_setting.threshold_quota': number
+  'free_topup_setting.batch_size': number
+  'free_topup_setting.daily_run_hour': number
+  'free_topup_setting.daily_run_minute': number
 }
 
 export type OperationsSettings = {

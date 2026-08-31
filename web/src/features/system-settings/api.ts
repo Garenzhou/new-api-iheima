@@ -105,3 +105,39 @@ export async function fetchUpstreamRatios(request: FetchUpstreamRatiosRequest) {
   )
   return res.data
 }
+
+export type FreeTopupStatsPayload = {
+  users_scanned: number
+  users_topped_up: number
+  total_granted: number
+  started_at: number
+  finished_at: number
+  duration_ms: number
+  err?: string
+}
+
+export type FreeTopupStatusPayload = {
+  enabled: boolean
+  target_quota: number
+  threshold_quota: number
+  batch_size: number
+  daily_run_hour: number
+  daily_run_minute: number
+  last_stats: FreeTopupStatsPayload | null
+}
+
+export async function getFreeTopupStatus() {
+  const res = await api.get<{
+    success: boolean
+    data: FreeTopupStatusPayload
+  }>('/api/option/free_topup/status')
+  return res.data
+}
+
+export async function triggerFreeTopupNow() {
+  const res = await api.post<{
+    success: boolean
+    message?: string
+  }>('/api/option/free_topup/trigger')
+  return res.data
+}

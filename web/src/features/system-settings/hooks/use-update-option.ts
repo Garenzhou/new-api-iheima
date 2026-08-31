@@ -37,6 +37,14 @@ const STATUS_RELATED_KEYS = new Set([
   'general_setting.custom_currency_symbol',
   'general_setting.custom_currency_exchange_rate',
   'oidc.display_name',
+  // Keys that affect the public /api/status payload. Updating any of them
+  // must bust the cached status response so unauthenticated pages pick up
+  // the change on the next load. Internal-only fields (batch_size, run
+  // time, exact quota numbers) are NOT included — they don't appear on
+  // /api/status, so invalidating it would be wasted work.
+  'promo_setting.enabled',
+  'promo_setting.text',
+  'free_topup_setting.enabled',
 ])
 
 export function useUpdateOption() {

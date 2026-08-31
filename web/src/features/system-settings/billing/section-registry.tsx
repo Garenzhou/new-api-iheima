@@ -19,6 +19,7 @@ For commercial licensing, please contact support@quantumnous.com
 import { parseCurrencyDisplayType } from '@/lib/currency'
 
 import { CheckinSettingsSection } from '../general/checkin-settings-section'
+import { FreeTopupSection } from '../general/free-topup-section'
 import { PricingSection } from '../general/pricing-section'
 import { QuotaSettingsSection } from '../general/quota-settings-section'
 import { PaymentSettingsSection } from '../integrations/payment-settings-section'
@@ -202,6 +203,22 @@ const BILLING_SECTIONS = [
           enabled: settings['checkin_setting.enabled'],
           minQuota: settings['checkin_setting.min_quota'],
           maxQuota: settings['checkin_setting.max_quota'],
+        }}
+      />
+    ),
+  },
+  {
+    id: 'free-topup',
+    titleKey: 'Daily Free Topup',
+    build: (settings: BillingSettings) => (
+      <FreeTopupSection
+        defaultValues={{
+          enabled: settings['free_topup_setting.enabled'],
+          targetQuota: settings['free_topup_setting.target_quota'],
+          thresholdQuota: settings['free_topup_setting.threshold_quota'],
+          batchSize: settings['free_topup_setting.batch_size'],
+          dailyRunHour: settings['free_topup_setting.daily_run_hour'],
+          dailyRunMinute: settings['free_topup_setting.daily_run_minute'],
         }}
       />
     ),
