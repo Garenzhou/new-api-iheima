@@ -1,0 +1,6 @@
+export { CTA } from './sections/cta'
+export { Contact } from './sections/contact'
+export { Features } from './sections/features'
+export { Hero } from './sections/hero'
+export { Values } from './sections/values'
+export { Vision } from './sections/vision'
